@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+     Copyright 2020 Intel Corporation
+     SPDX-License-Identifier: Apache 2.0
+-->
+
+<included>
+  <conversionRule conversionWord="guid" converterClass="org.sdo.rendezvous.logging.converters.GuidConverter" />
+  <conversionRule conversionWord="sessionId" converterClass="org.sdo.rendezvous.logging.converters.SessionIdConverter" />
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>
+        [DATE=%d{yyyy-MM-dd HH:mm:ss.SSS}] [SESSION ID=%sessionId] [GUID=%guid] [LEVEL=%level%marker] [CLASS=%logger{36}] [MESSAGE=%msg]%n
+      </Pattern>
+    </encoder>
+  </appender>
+</included>

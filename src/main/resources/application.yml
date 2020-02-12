@@ -1,0 +1,52 @@
+# Copyright 2019 Intel Corporation
+# SPDX-License-Identifier: Apache 2.0
+
+info:
+  build.version: ${version}
+
+rendezvous:
+  hmacSecret: 'efe08a5df188dac44a4534c9f8ca0aed1b7ef6003622a07bf8a331134b3c1af427a6d7ee298f25d7f911ae495a8356e4636c19ada91643bd0d8b4f7b2bb97156'
+  tOTokenExpirationTime: 15
+  verificationServiceHost: 'https://localhost:1180'
+  ownershipVoucherMaxEntries: 10
+  signatureVerification: true # false = EPID and ECDSA signatures are not verified by "TO_1 ProveToMP", default false
+  opKeyVerification: true  # false = Ownership Voucher Key Verification Mode is NOT engaged, default true
+  waitSecondsLimit: 2419200 # 4 weeks
+
+redis:
+  host: 'localhost'
+  port: 6379
+  ssl: false
+
+server:
+  port: 8000
+  connection-timeout: 70000
+  http:
+    port: 8001
+
+
+spring:
+  application:
+    name: rendezvous
+  profiles: # development | production | onprem
+    active: development
+
+
+logging.level.org.sdo: DEBUG
+
+logging.logstash.enabled: false
+logging.logstash.host: localhost
+logging.logstash.port: 4560
+
+---
+spring:
+  profiles: production
+
+---
+spring:
+  profiles: onprem
+
+redis:
+  host: 'localhost'
+  port: 6379
+  ssl: false

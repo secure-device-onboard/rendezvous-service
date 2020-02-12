@@ -1,0 +1,133 @@
+// Copyright 2019 Intel Corporation
+// SPDX-License-Identifier: Apache 2.0
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'org.springframework.boot'
+apply from: "$rootDir/config/checkstyle.gradle"
+
+version = System.getProperty('version') ?: '9.99.999'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.4.RELEASE")
+    }
+}
+
+compileJava {
+    options.compilerArgs << "-Werror"
+}
+
+processResources {
+    filesMatching('application.yml') {
+        expand(project.properties)
+    }
+}
+
+task checkForJava8 {
+    if(JavaVersion.current() != JavaVersion.VERSION_1_8){
+        throw new GradleException("Java 8 is required to run this build")
+    }
+}
+
+configurations {
+    all {
+        exclude module: "spring-boot-starter-tomcat"
+        exclude module: "xml-apis"
+        exclude group: "org.eclipse.jetty.websocket"
+        exclude group: "commons-logging"
+    }
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.1.5.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version:'2.1.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aspects', version:'5.1.7.RELEASE'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version:'1.61'
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version:'1.61'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.1'
+    compile group: 'redis.clients', name: 'jedis', version:'3.1.0-m1'
+    compile group: 'com.google.guava', name: 'guava', version:'27.1-jre'
+
+    compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.2'
+
+    //Protecode jackson-databind, manually jackson updated
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version:'1.18.8'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version:'1.18.8'
+
+    testCompile group: 'org.testng', name: 'testng', version:'6.14.3'
+    testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version:'2.0.2'
+    testCompile group: 'org.powermock', name: 'powermock-module-testng', version:'2.0.2'
+}
+
+// Unit tests configuration
+test {
+    useTestNG()
+
+    testLogging {
+        exceptionFormat 'full'
+        events 'FAILED'
+    }
+    afterTest { test, result ->
+        if(result.resultType.equals(TestResult.ResultType.SUCCESS)) {
+            float testExecutionTime = (result.endTime - result.startTime) / 1000.0 // in secs
+            logger.lifecycle(String.format("%s.%s [%.3f sec] PASSED",
+                    test.className,
+                    test.name,
+                    testExecutionTime))
+        }
+    }
+    afterSuite { suite, result ->
+        if(!suite.parent) {
+            float suiteExecutionTime = (result.endTime - result.startTime) / 1000.0 // in secs
+            logger.quiet("")
+            logger.quiet(String.format("TEST SUITE TIME: %.3f sec", suiteExecutionTime))
+            if(result.failedTestCount == 0) {
+                logger.quiet("")
+                logger.quiet(String.format("%d tests completed, %d failed, %d skipped",
+                        result.successfulTestCount,
+                        result.failedTestCount,
+                        result.skippedTestCount))
+                logger.quiet("")
+            }
+        }
+    }
+}
+
+// Jacoco configuration
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+task jacocoReportRendezvous(type: JacocoReport) {
+    additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
+    sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+    classDirectories = files(sourceSets.main.output)
+    executionData = files(jacocoTestReport.executionData)
+    reports {
+        html.enabled = true
+        html.setDestination(file("${project.rootDir}/build/jacocoReport"))
+        xml.enabled = true
+        xml.setDestination(file("${project.rootDir}/build/jacocoReport/CoverageJacoco.xml"))
+        csv.enabled = true
+        csv.setDestination(file("${project.rootDir}/build/jacocoReport/CoverageJacoco.csv"))
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['org/sdo/rendezvous/development/**'])
+        })
+    }
+}
+
+build.dependsOn checkForJava8
