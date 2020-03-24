@@ -10,14 +10,18 @@ apply plugin: 'jacoco'
 apply plugin: 'org.springframework.boot'
 apply from: "$rootDir/config/checkstyle.gradle"
 
-version = System.getProperty('version') ?: '9.99.999'
+version = System.getProperty('version') ?: '1.8'
+
+jar{
+     archivesBaseName = 'rendezvous-service'
+}
 
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.4.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.6.RELEASE")
     }
 }
 
@@ -47,26 +51,26 @@ configurations {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.1.5.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version:'2.1.5.RELEASE'
-    compile group: 'org.springframework', name: 'spring-aspects', version:'5.1.7.RELEASE'
-    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version:'1.61'
-    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version:'1.61'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.2.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version:'2.2.6.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aspects', version:'5.2.5.RELEASE'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version:'1.64'
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version:'1.64'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.1'
-    compile group: 'redis.clients', name: 'jedis', version:'3.1.0-m1'
-    compile group: 'com.google.guava', name: 'guava', version:'27.1-jre'
+    compile group: 'redis.clients', name: 'jedis', version:'3.2.0'
+    compile group: 'com.google.guava', name: 'guava', version:'28.2-jre'
 
-    compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.2'
+    compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.3'
 
     //Protecode jackson-databind, manually jackson updated
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.3'
 
-    compileOnly group: 'org.projectlombok', name: 'lombok', version:'1.18.8'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version:'1.18.8'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version:'1.18.12'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version:'1.18.12'
 
-    testCompile group: 'org.testng', name: 'testng', version:'6.14.3'
-    testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version:'2.0.2'
-    testCompile group: 'org.powermock', name: 'powermock-module-testng', version:'2.0.2'
+    testCompile group: 'org.testng', name: 'testng', version:'7.1.0'
+    testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version:'2.0.7'
+    testCompile group: 'org.powermock', name: 'powermock-module-testng', version:'2.0.7'
 }
 
 // Unit tests configuration
@@ -130,4 +134,27 @@ task jacocoReportRendezvous(type: JacocoReport) {
     }
 }
 
+task copyDockerDependencies(type: Copy){
+    mkdir "${project.rootDir}/demo/certs"
+
+    from ("${project.rootDir}"){
+        include "certs/*.jks"
+    }
+    into "${project.rootDir}/demo/certs"
+
+    from "${project.rootDir}/build/libs"
+    into "${project.rootDir}/demo"
+}
+
+task cleanDockerFiles(type: Delete) {
+
+    delete "${project.rootDir}/demo/certs"
+
+    delete fileTree("${project.rootDir}/demo/") {
+        include '**/*.jar'
+    }
+}
+
+clean.dependsOn cleanDockerFiles
+build.dependsOn copyDockerDependencies
 build.dependsOn checkForJava8
