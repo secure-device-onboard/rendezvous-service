@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.sdo.rendezvous.controllers.error.ErrorMessageController;
 import org.sdo.rendezvous.logging.utils.LoggingUtils;
@@ -25,6 +26,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "javax.management.*"})
 @PrepareForTest({RequestContextHolder.class, SessionAttributeHolder.class, LoggingUtils.class})
 public class ErrorMessageControllerTest extends PowerMockTestCase {
 

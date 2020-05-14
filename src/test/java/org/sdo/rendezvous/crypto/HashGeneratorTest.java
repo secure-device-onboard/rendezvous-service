@@ -18,12 +18,14 @@ import javax.xml.bind.DatatypeConverter;
 import org.bouncycastle.util.encoders.Base64;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.sdo.rendezvous.model.types.HashType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@PowerMockIgnore({"javax.xml.*", "org.xml.sax.*"})
 @PrepareForTest({HashGenerator.class, MessageDigest.class})
 public class HashGeneratorTest extends PowerMockTestCase {
   private static HashType ALGHORITHM_TYPE_SHA_256 = HashType.SHA256;

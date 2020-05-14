@@ -6,11 +6,13 @@ package org.sdo.rendezvous.utils;
 import java.io.IOException;
 import javax.xml.bind.DatatypeConverter;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@PowerMockIgnore({"javax.xml.*", "org.xml.sax.*"})
 @PrepareForTest({ByteConversionUtils.class})
 public class ArrayByteBuilderTest extends PowerMockTestCase {
 

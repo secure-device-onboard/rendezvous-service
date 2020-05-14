@@ -17,7 +17,7 @@ Rendezvous service is a software service that permits the Device to find its cur
 ### System requirements
 
 * **Linux Ubuntu 18.04**.
-* **Java 8**.
+* **Java 11**.
 * **Redis database** [page][2]
 * **Redis via SSL** [page][3] - usage of stunnel to secure redis (optional)
 
