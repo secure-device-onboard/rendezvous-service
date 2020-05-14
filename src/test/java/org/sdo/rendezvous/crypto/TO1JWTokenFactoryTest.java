@@ -20,8 +20,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "javax.management.*", "javax.crypto.*"})
 @PrepareForTest(TimestampUtils.class)
-@PowerMockIgnore({"javax.*", "org.xml.sax.*"})
 public class TO1JWTokenFactoryTest extends PowerMockTestCase {
 
   private static final String HMAC_KEY =

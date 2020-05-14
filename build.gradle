@@ -10,7 +10,7 @@ apply plugin: 'jacoco'
 apply plugin: 'org.springframework.boot'
 apply from: "$rootDir/config/checkstyle.gradle"
 
-version = System.getProperty('version') ?: '1.8'
+version = System.getProperty('version') ?: '1.9'
 
 jar{
      archivesBaseName = 'rendezvous-service'
@@ -35,12 +35,6 @@ processResources {
     }
 }
 
-task checkForJava8 {
-    if(JavaVersion.current() != JavaVersion.VERSION_1_8){
-        throw new GradleException("Java 8 is required to run this build")
-    }
-}
-
 configurations {
     all {
         exclude module: "spring-boot-starter-tomcat"
@@ -59,7 +53,7 @@ dependencies {
     compile group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.1'
     compile group: 'redis.clients', name: 'jedis', version:'3.2.0'
     compile group: 'com.google.guava', name: 'guava', version:'28.2-jre'
-
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
     compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.3'
 
     //Protecode jackson-databind, manually jackson updated
@@ -157,4 +151,3 @@ task cleanDockerFiles(type: Delete) {
 
 clean.dependsOn cleanDockerFiles
 build.dependsOn copyDockerDependencies
-build.dependsOn checkForJava8
