@@ -38,6 +38,10 @@ public class OwnerSignDataVerifierTest {
 
   private HashGenerator hashGenerator;
 
+  /**
+   * Variable initialization.
+   * @throws Exception for InvalidPublicKeyTypeException and any other unhandled exceptions
+   */
   @BeforeMethod
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);

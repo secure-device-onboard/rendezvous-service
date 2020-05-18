@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<suite name = "Rendezvous Service Logger Suite">
+    <listeners>
+        <listener class-name = "org.sdo.rendezvous.testng.custom.logs.CustomLogs" />
+    </listeners>
+    <packages>
+        <test name = "Rendezvous Service Authenticators Test">
+            <package name="org.sdo.rendezvous.authenticators"/>
+            <package name="org.sdo.rendezvous.controllers"/>
+            <package name="org.sdo.rendezvous.crypto"/>
+            <package name="org.sdo.rendezvous.enums"/>
+            <package name="org.sdo.rendezvous.exceptions.handler"/>
+            <package name="org.sdo.rendezvous.logging.utils"/>
+            <package name="org.sdo.rendezvous.model"/>
+            <package name="org.sdo.rendezvous.model.beans"/>
+            <package name="org.sdo.rendezvous.model.database.serialization"/>
+            <package name="org.sdo.rendezvous.model.responses"/>
+            <package name="org.sdo.rendezvous.model.types"/>
+            <package name="org.sdo.rendezvous.model.types.serialization"/>
+            <package name="org.sdo.rendezvous.model.beans"/>
+            <package name="org.sdo.rendezvous.repositories"/>
+            <package name="org.sdo.rendezvous.services"/>
+            <package name="org.sdo.rendezvous.services.errormessage"/>
+            <package name="org.sdo.rendezvous.services.op"/>
+            <package name="org.sdo.rendezvous.services.signature"/>
+            <package name="org.sdo.rendezvous.utils"/>
+        </test>
+    </packages>
+</suite>

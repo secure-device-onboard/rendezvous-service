@@ -23,8 +23,8 @@ import org.sdo.rendezvous.model.types.Hash;
 import org.sdo.rendezvous.model.types.HashType;
 import org.sdo.rendezvous.model.types.Hmac;
 import org.sdo.rendezvous.model.types.OwnershipVoucher;
-import org.sdo.rendezvous.model.types.PKNull;
-import org.sdo.rendezvous.model.types.PKX509Enc;
+import org.sdo.rendezvous.model.types.PkNull;
+import org.sdo.rendezvous.model.types.PkX509Enc;
 import org.sdo.rendezvous.model.types.PubKey;
 import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.sdo.rendezvous.model.types.Signature;
@@ -54,7 +54,7 @@ public class OwnershipVoucherVerifierTest {
           DatatypeConverter.parseHexBinary(
               "4900D4F7AC5DD55CD8E7845371C1BD08E7987784E1607BA10D9E4C962CAF935AE052B34"
                   + "85C4068E49AFF49BABCBB21C317EE7ACF8D47F41C1A48F73488CA56AB"));
-  private static final PubKey INVALID_PUBKEY = new PKNull();
+  private static final PubKey INVALID_PUBKEY = new PkNull();
   private OwnershipVoucher ownershipVoucher;
   @Mock private RendezvousConfig rendezvousConfig;
 
@@ -69,6 +69,11 @@ public class OwnershipVoucherVerifierTest {
   private HashGenerator hashGenerator;
   private IOwnershipVoucherVerifier ownershipVoucherVerifier;
 
+
+  /**
+   * Variable initialization.
+   * @throws Exception for InvalidOwnershipVoucherException, InvalidPublicKeyTypeException
+   */
   @BeforeMethod
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
@@ -202,7 +207,7 @@ public class OwnershipVoucherVerifierTest {
     ownershipVoucher
         .getOwnershipVoucherEntries()[1]
         .getOwnershipVoucherEntryBody()
-        .setPublicKey(new PKX509Enc(PublicKeyType.ECDSA_P_256, new byte[] {}));
+        .setPublicKey(new PkX509Enc(PublicKeyType.ECDSA_P_256, new byte[] {}));
     ownershipVoucherVerifier.verify(ownershipVoucher);
   }
 }

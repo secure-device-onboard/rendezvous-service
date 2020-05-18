@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 import org.sdo.rendezvous.model.types.ProveToSdoBody;
 import org.sdo.rendezvous.model.types.PubKey;
 import org.sdo.rendezvous.model.types.Signature;
-import org.sdo.rendezvous.model.types.serialization.ProveToSDORequestDeserializer;
+import org.sdo.rendezvous.model.types.serialization.ProveToSdoRequestDeserializer;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonDeserialize(using = ProveToSDORequestDeserializer.class)
+@JsonDeserialize(using = ProveToSdoRequestDeserializer.class)
 @Data
 public class ProveToSdoRequest {
 

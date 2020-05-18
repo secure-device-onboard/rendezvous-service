@@ -10,8 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.sdo.rendezvous.controllers.error.ErrorMessageController;
 import org.sdo.rendezvous.logging.utils.LoggingUtils;
@@ -48,6 +48,9 @@ public class ErrorMessageControllerTest extends PowerMockTestCase {
 
   @InjectMocks private ErrorMessageController controller;
 
+  /**
+   * Variable initialization.
+   */
   @BeforeMethod
   public void setUp() {
     PowerMockito.mockStatic(RequestContextHolder.class);

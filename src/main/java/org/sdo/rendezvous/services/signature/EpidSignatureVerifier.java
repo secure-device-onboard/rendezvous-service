@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.sdo.rendezvous.exceptions.InvalidEpidSignatureException;
 import org.sdo.rendezvous.exceptions.InvalidPublicKeyTypeException;
 import org.sdo.rendezvous.exceptions.SdoException;
-import org.sdo.rendezvous.model.types.PKEPIDEnc;
+import org.sdo.rendezvous.model.types.PkEpidEnc;
 import org.sdo.rendezvous.model.types.ProveToSdoBody;
 import org.sdo.rendezvous.model.types.PubKey;
 import org.sdo.rendezvous.model.types.PublicKeyType;
@@ -32,10 +32,10 @@ class EpidSignatureVerifier implements ISignatureVerifier {
   @Override
   public void verify(ProveToSdoBody signatureBody, PubKey pkEpid, byte[] signature)
       throws SdoException {
-    if (!(pkEpid instanceof PKEPIDEnc)) {
+    if (!(pkEpid instanceof PkEpidEnc)) {
       throw new InvalidPublicKeyTypeException("Public key is not EPID Public key.");
     }
-    PKEPIDEnc pkepidEnc = (PKEPIDEnc) pkEpid;
+    PkEpidEnc pkepidEnc = (PkEpidEnc) pkEpid;
     try {
       log.info("Trying to verify EPID signature.");
       byte[] msg = createEpidSignatureBodyMessage(signatureBody, pkepidEnc.getPkType());

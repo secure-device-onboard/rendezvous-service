@@ -5,7 +5,7 @@ package org.sdo.rendezvous.model.types.serialization;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.sdo.rendezvous.model.types.PKRMEEnc;
+import org.sdo.rendezvous.model.types.PkRmeEnc;
 import org.sdo.rendezvous.model.types.PubKey;
 import org.sdo.rendezvous.model.types.PublicKeyEncoding;
 import org.sdo.rendezvous.model.types.PublicKeyType;
@@ -15,11 +15,11 @@ import org.testng.annotations.Test;
 public class PubKeyDeserializerTest {
 
   @Test
-  public void testDeserializePKRMEEPositive() throws Exception {
+  public void testDeserializePkRmeEPositive() throws Exception {
 
     String json = "[1,3,[4,\"ESIzRA==\",3,\"ESIz\"]]";
     ObjectMapper mapper = new ObjectMapper();
-    PKRMEEnc pubkey = (PKRMEEnc) mapper.readValue(json, PubKey.class);
+    PkRmeEnc pubkey = (PkRmeEnc) mapper.readValue(json, PubKey.class);
 
     Assert.assertEquals(pubkey.getPkType(), PublicKeyType.RSA2048RESTR);
     Assert.assertEquals(pubkey.getPkEnc(), PublicKeyEncoding.RSAMODEXP);

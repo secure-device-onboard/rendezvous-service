@@ -9,16 +9,16 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sdo.rendezvous.config.RendezvousConfig;
-import org.sdo.rendezvous.crypto.TO1JWTokenFactory;
+import org.sdo.rendezvous.crypto.To1JwTokenFactory;
 import org.sdo.rendezvous.exceptions.SdoException;
 import org.sdo.rendezvous.logging.aspects.generic.LogExecutionTime;
-import org.sdo.rendezvous.model.SdoURLMapping;
+import org.sdo.rendezvous.model.SdoUrlMapping;
 import org.sdo.rendezvous.model.beans.DeviceInfo;
 import org.sdo.rendezvous.model.requests.to1.HelloSdoRequest;
 import org.sdo.rendezvous.model.requests.to1.ProveToSdoRequest;
 import org.sdo.rendezvous.model.responses.to1.HelloSdoAckResponse;
 import org.sdo.rendezvous.model.types.Device;
-import org.sdo.rendezvous.model.types.OwnerSignTO1Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
 import org.sdo.rendezvous.services.TokenParserService;
 import org.sdo.rendezvous.services.TransferOwnership1Service;
 import org.sdo.rendezvous.utils.ResponseUtils;
@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping(
-    value = {SdoURLMapping.TO_MSG_110, SdoURLMapping.TO_MSG_112, SdoURLMapping.TO_MSG_113},
+    value = {SdoUrlMapping.TO_MSG_110, SdoUrlMapping.TO_MSG_112, SdoUrlMapping.TO_MSG_113},
     consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
@@ -50,7 +50,7 @@ public class TransferOwnership1Controller {
   private final RendezvousConfig rendezvousConfig;
   private final TransferOwnership1Service transferOwnership1Service;
   private final TokenParserService tokenParserService;
-  private final TO1JWTokenFactory to1JWTokenFactory;
+  private final To1JwTokenFactory to1JwTokenFactory;
 
   /**
    * Exposes endpoints /mp/110/msg/30, /mp/112/msg/30, /mp/113/msg/30. Establishes the presence of
@@ -63,13 +63,13 @@ public class TransferOwnership1Controller {
    * @throws IOException unexpected exception
    */
   @LogExecutionTime
-  @PostMapping(value = SdoURLMapping.TO1_HELLO_SDO_ENDPOINT)
+  @PostMapping(value = SdoUrlMapping.TO1_HELLO_SDO_ENDPOINT)
   public ResponseEntity<String> helloSdo(@RequestBody @Valid HelloSdoRequest helloRequest)
       throws SdoException, IOException {
 
     HelloSdoAckResponse response = transferOwnership1Service.getHelloSdoAckResponse(helloRequest);
     String token =
-        to1JWTokenFactory.buildToken(
+        to1JwTokenFactory.buildToken(
             helloRequest.getGuid(), response.getNonce(), rendezvousConfig.getHmacSecret());
 
     ResponseUtils.addTokenHeader(httpServletResponse, token);
@@ -87,12 +87,12 @@ public class TransferOwnership1Controller {
    * @throws IOException unexpected exception
    */
   @LogExecutionTime
-  @PostMapping(value = SdoURLMapping.TO1_PROVE_TO_SDO_ENDPOINT)
+  @PostMapping(value = SdoUrlMapping.TO1_PROVE_TO_SDO_ENDPOINT)
   public ResponseEntity<String> proveToSdo(@RequestBody @Valid ProveToSdoRequest proveRequest)
       throws SdoException, IOException {
 
     Device device = new Device(deviceInfo.getGuid(), deviceInfo.getNonce());
-    OwnerSignTO1Data to1Data =
+    OwnerSignTo1Data to1Data =
         transferOwnership1Service.getProveToSdoResponse(device, proveRequest);
 
     ResponseUtils.addTokenHeader(httpServletResponse, tokenParserService.getToken(device));

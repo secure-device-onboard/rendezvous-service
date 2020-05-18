@@ -15,7 +15,7 @@ RUN mkdir ./certs
 
 # Copy dependencies to container
 
-COPY *.jar /home/sdouser
+COPY *.war /home/sdouser
 COPY cmdDocker.sh /home/sdouser
 COPY certs/ /home/sdouser/certs
 

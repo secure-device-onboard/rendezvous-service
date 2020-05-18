@@ -16,7 +16,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.sdo.rendezvous.config.RendezvousConfig;
 import org.sdo.rendezvous.controllers.transferownership.TransferOwnership1Controller;
-import org.sdo.rendezvous.crypto.TO1JWTokenFactory;
+import org.sdo.rendezvous.crypto.To1JwTokenFactory;
 import org.sdo.rendezvous.enums.AttributeName;
 import org.sdo.rendezvous.exceptions.GuidBlacklistedException;
 import org.sdo.rendezvous.exceptions.InvalidSigInfoException;
@@ -27,11 +27,11 @@ import org.sdo.rendezvous.model.requests.to1.ProveToSdoRequest;
 import org.sdo.rendezvous.model.responses.to1.HelloSdoAckResponse;
 import org.sdo.rendezvous.model.types.AppId;
 import org.sdo.rendezvous.model.types.Device;
-import org.sdo.rendezvous.model.types.OwnerSignTO1Data;
-import org.sdo.rendezvous.model.types.OwnerSignTO1DataBody;
-import org.sdo.rendezvous.model.types.PKECDSAEnc;
-import org.sdo.rendezvous.model.types.PKEPIDEnc;
-import org.sdo.rendezvous.model.types.PKNull;
+import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo1DataBody;
+import org.sdo.rendezvous.model.types.PkEcdsaEnc;
+import org.sdo.rendezvous.model.types.PkEpidEnc;
+import org.sdo.rendezvous.model.types.PkNull;
 import org.sdo.rendezvous.model.types.ProveToSdoBody;
 import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.sdo.rendezvous.model.types.SigInfo;
@@ -73,18 +73,18 @@ public class TransferOwnership1ControllerTest extends PowerMockTestCase {
   private static final byte[] NONCE = DatatypeConverter.parseHexBinary("1234");
   private static final ProveToSdoBody PROVE_BODY =
       new ProveToSdoBody(new AppId(AI_TYPE, AI_BYTES), NONCE, GUID);
-  private static final PKEPIDEnc PUBLIC_KEY_EPID =
-      new PKEPIDEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
-  private static final PKECDSAEnc PUBLIC_KEY_ECDSA =
-      new PKECDSAEnc(PublicKeyType.ECDSA_P_256, ECDSA_KEY_BINARY);
+  private static final PkEpidEnc PUBLIC_KEY_EPID =
+      new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
+  private static final PkEcdsaEnc PUBLIC_KEY_ECDSA =
+      new PkEcdsaEnc(PublicKeyType.ECDSA_P_256, ECDSA_KEY_BINARY);
   private static final byte[] SIGNATURE_BINARY = DatatypeConverter.parseHexBinary("0000");
   private static final Signature SIGNATURE = new Signature(SIGNATURE_BINARY);
   private static final ProveToSdoRequest PROVE_REQUEST_EPID =
       new ProveToSdoRequest(PROVE_BODY, PUBLIC_KEY_EPID, SIGNATURE);
   private static final ProveToSdoRequest PROVE_REQUEST_ECDSA =
       new ProveToSdoRequest(PROVE_BODY, PUBLIC_KEY_ECDSA, SIGNATURE);
-  private static final OwnerSignTO1Data OWNER_DATA =
-      new OwnerSignTO1Data(new OwnerSignTO1DataBody(), new PKNull(), SIGNATURE);
+  private static final OwnerSignTo1Data OWNER_DATA =
+      new OwnerSignTo1Data(new OwnerSignTo1DataBody(), new PkNull(), SIGNATURE);
   private static final Device DEVICE = new Device(GUID, NONCE);
   private static HelloSdoAckResponse HELLO_RESPONSE_EPID;
   private static HelloSdoAckResponse HELLO_RESPONSE_ECDSA;
@@ -98,10 +98,15 @@ public class TransferOwnership1ControllerTest extends PowerMockTestCase {
 
   @Mock private TokenParserService tokenParserService;
 
-  @Mock private TO1JWTokenFactory to1JwtokenFactory;
+  @Mock private To1JwTokenFactory to1JwtokenFactory;
 
   private TransferOwnership1Controller controller;
 
+  /**
+   * Variable initialization.
+   * @throws Exception for exceptions: InvalidGuidException, InvalidSigInfoException,
+   *                    GuidBlacklistedException, InvalidGroupIdException
+   */
   @BeforeMethod
   public void setUp() throws Exception {
     PowerMockito.mockStatic(RequestContextHolder.class);

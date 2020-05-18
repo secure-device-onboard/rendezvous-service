@@ -27,6 +27,12 @@ public class AuthenticatorRsaWithSha256Test {
     return keyGen.genKeyPair();
   }
 
+
+  /**
+   * Variable initialization.
+   * @throws Exception for NoSuchAlgorithmException, InvalidKeyException,
+   *                   SignatureException or any other unhandled exception.
+   */
   @BeforeMethod
   public void before() throws Exception {
     authenticator = new AuthenticatorRsaWithSha256();

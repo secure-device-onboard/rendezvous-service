@@ -14,7 +14,7 @@ import org.sdo.rendezvous.logging.utils.LoggingUtils;
 import org.sdo.rendezvous.model.requests.to1.HelloSdoRequest;
 import org.sdo.rendezvous.model.requests.to1.ProveToSdoRequest;
 import org.sdo.rendezvous.model.responses.to1.HelloSdoAckResponse;
-import org.sdo.rendezvous.model.types.OwnerSignTO1Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
 import org.sdo.rendezvous.utils.JsonUtils;
 import org.sdo.rendezvous.utils.SessionAttributeHolder;
 import org.springframework.http.HttpStatus;
@@ -89,7 +89,7 @@ class TO1LoggingAspect {
         "TO1.ProveToSDO request processing finished. Sending TO1.SDORedirect response with "
             + "HTTP status code {}. Response data: {}.",
         retValue.getStatusCode().value(),
-        JsonUtils.mapJsonToObject(retValue.getBody(), OwnerSignTO1Data.class));
+        JsonUtils.mapJsonToObject(retValue.getBody(), OwnerSignTo1Data.class));
     SessionAttributeHolder.removeAttribute(AttributeName.GUID);
     return retValue;
   }

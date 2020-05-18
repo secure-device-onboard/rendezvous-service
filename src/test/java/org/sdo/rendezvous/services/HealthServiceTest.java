@@ -37,6 +37,9 @@ public class HealthServiceTest {
 
   private HealthService healthService;
 
+  /**
+   * Variable initialization.
+   */
   @BeforeMethod
   public void beforeMethod() {
     MockitoAnnotations.initMocks(this);

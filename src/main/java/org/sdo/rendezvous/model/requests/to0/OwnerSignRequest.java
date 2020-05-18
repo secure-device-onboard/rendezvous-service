@@ -8,18 +8,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.sdo.rendezvous.model.types.IpAddress;
-import org.sdo.rendezvous.model.types.OwnerSignTO0Data;
-import org.sdo.rendezvous.model.types.OwnerSignTO1Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo0Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
 
 @NoArgsConstructor
 @Data
 public class OwnerSignRequest {
 
   @JsonProperty("to0d")
-  private OwnerSignTO0Data to0Data;
+  private OwnerSignTo0Data to0Data;
 
   @JsonProperty("to1d")
-  private OwnerSignTO1Data to1Data;
+  private OwnerSignTo1Data to1Data;
 
   @JsonIgnore
   public IpAddress getIpAddress() {

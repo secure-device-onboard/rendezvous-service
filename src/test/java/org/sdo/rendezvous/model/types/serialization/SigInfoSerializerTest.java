@@ -25,6 +25,10 @@ public class SigInfoSerializerTest {
   private SigInfo sigInfo;
   private SigInfoSerializer sigInfoSerializer;
 
+  /**
+   * Variable initialization.
+   * @throws IOException for unhandled IOException.
+   */
   @BeforeMethod
   public void setUp() throws IOException {
     byte[] sigInfoBytes =

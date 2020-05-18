@@ -46,6 +46,10 @@ public class OwnerSignRequestVerifierTest {
   private OwnerSignRequestVerifier ownerSignRequestVerifier;
   private OwnerSignRequest ownerSignRequest;
 
+  /**
+   * Variable initialization.
+   * @throws Exception for unhandled exception.
+   */
   @BeforeMethod
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);

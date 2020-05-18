@@ -15,7 +15,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.sdo.rendezvous.config.RendezvousConfig;
 import org.sdo.rendezvous.controllers.transferownership.TransferOwnership0Controller;
-import org.sdo.rendezvous.crypto.TO0JWTokenFactory;
+import org.sdo.rendezvous.crypto.To0JwTokenFactory;
 import org.sdo.rendezvous.enums.AttributeName;
 import org.sdo.rendezvous.model.beans.Nonce;
 import org.sdo.rendezvous.model.requests.to0.OwnerSignRequest;
@@ -48,10 +48,14 @@ public class TransferOwnership0ControllerTest extends PowerMockTestCase {
 
   @Mock private RendezvousConfig rendezvousConfig;
 
-  @Mock private TO0JWTokenFactory to0JwtokenFactory;
+  @Mock private To0JwTokenFactory to0JwtokenFactory;
 
   private TransferOwnership0Controller controller;
 
+  /**
+   * Variable initialization.
+   * @throws Exception for unhandled exceptions
+   */
   @BeforeMethod
   public void setUp() throws Exception {
     PowerMockito.mockStatic(RequestContextHolder.class);

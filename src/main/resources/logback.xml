@@ -6,7 +6,7 @@
 -->
 
 <configuration>
-    <property scope="context" resource="application.yml" />
+    <property scope="context" resource="application.properties" />
     <include resource="logback-console.xml"/>
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

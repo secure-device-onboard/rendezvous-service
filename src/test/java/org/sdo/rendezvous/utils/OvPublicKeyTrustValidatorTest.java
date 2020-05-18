@@ -36,6 +36,9 @@ public class OvPublicKeyTrustValidatorTest extends PowerMockTestCase {
           + "C75FE62CEAF1CEC1205C8248140B3F138FE5AB4A334BC973A501E6821A63CDE5E5879BA16908E7B"
           + "DCC1B1E6CF2AFAB4ADB610203010001";
 
+  /**
+   * Variable initialization.
+   */
   @BeforeMethod
   public void setUp() {
     MockitoAnnotations.initMocks(this);

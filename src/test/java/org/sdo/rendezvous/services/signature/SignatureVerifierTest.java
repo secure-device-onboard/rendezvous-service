@@ -10,8 +10,8 @@ import org.mockito.MockitoAnnotations;
 import org.sdo.rendezvous.config.RendezvousConfig;
 import org.sdo.rendezvous.exceptions.InvalidPublicKeyTypeException;
 import org.sdo.rendezvous.model.types.AppId;
-import org.sdo.rendezvous.model.types.PKECDSAEnc;
-import org.sdo.rendezvous.model.types.PKEPIDEnc;
+import org.sdo.rendezvous.model.types.PkEcdsaEnc;
+import org.sdo.rendezvous.model.types.PkEpidEnc;
 import org.sdo.rendezvous.model.types.ProveToSdoBody;
 import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.testng.annotations.BeforeMethod;
@@ -31,12 +31,12 @@ public class SignatureVerifierTest {
       DatatypeConverter.parseHexBinary("00000005AF2121201321100000000005");
   private static final byte[] ECDSA_KEY_BINARY =
       DatatypeConverter.parseHexBinary("212dA2121F212121C21C5FA2121C121B2121212E121FF2");
-  private static final PKEPIDEnc PUBLIC_KEY_EPID_11 =
-      new PKEPIDEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
-  private static final PKEPIDEnc PUBLIC_KEY_EPID_20 =
-      new PKEPIDEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
-  private static final PKECDSAEnc PUBLIC_KEY_ECDSA_PROVE =
-      new PKECDSAEnc(PublicKeyType.NONE, ECDSA_KEY_BINARY);
+  private static final PkEpidEnc PUBLIC_KEY_EPID_11 =
+      new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
+  private static final PkEpidEnc PUBLIC_KEY_EPID_20 =
+      new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
+  private static final PkEcdsaEnc PUBLIC_KEY_ECDSA_PROVE =
+      new PkEcdsaEnc(PublicKeyType.NONE, ECDSA_KEY_BINARY);
 
   @Mock private EpidSignatureVerifier epidSignatureVerifier;
 
@@ -46,6 +46,9 @@ public class SignatureVerifierTest {
 
   private SignatureVerifier signatureVerifier;
 
+  /**
+   * Variable initialization.
+   */
   @BeforeMethod
   public void setUp() {
     MockitoAnnotations.initMocks(this);
@@ -72,6 +75,6 @@ public class SignatureVerifierTest {
   @Test(expectedExceptions = InvalidPublicKeyTypeException.class)
   public void testVerifySignatureInvalidKeyType() throws Exception {
     signatureVerifier.verify(
-        PROVE_BODY, new PKECDSAEnc(PublicKeyType.RSA2048RESTR, new byte[] {}), SIGNATURE_BINARY);
+        PROVE_BODY, new PkEcdsaEnc(PublicKeyType.RSA2048RESTR, new byte[] {}), SIGNATURE_BINARY);
   }
 }
