@@ -18,9 +18,9 @@ import org.sdo.rendezvous.authenticators.AuthenticatorEcdsaWithSha384;
 import org.sdo.rendezvous.authenticators.AuthenticatorFactory;
 import org.sdo.rendezvous.exceptions.InvalidPublicKeyTypeException;
 import org.sdo.rendezvous.model.types.AppId;
-import org.sdo.rendezvous.model.types.PKECDSAEnc;
-import org.sdo.rendezvous.model.types.PKEPIDEnc;
-import org.sdo.rendezvous.model.types.PKNull;
+import org.sdo.rendezvous.model.types.PkEcdsaEnc;
+import org.sdo.rendezvous.model.types.PkEpidEnc;
+import org.sdo.rendezvous.model.types.PkNull;
 import org.sdo.rendezvous.model.types.ProveToSdoBody;
 import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.testng.annotations.BeforeMethod;
@@ -40,15 +40,15 @@ public class EcdsaSignatureVerifierTest {
       DatatypeConverter.parseHexBinary("00000005AF2121201321100000000005");
   private static final byte[] ECDSA_KEY_BINARY =
       DatatypeConverter.parseHexBinary("212dA2121F212121C21C5FA2121C121B2121212E121FF2");
-  private static final PKEPIDEnc PUBLIC_KEY_EPID_11 =
-      new PKEPIDEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
-  private static final PKEPIDEnc PUBLIC_KEY_EPID_20 =
-      new PKEPIDEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
-  private static final PKECDSAEnc PUBLIC_KEY_ECDSA =
-      new PKECDSAEnc(PublicKeyType.ECDSA_P_256, ECDSA_KEY_BINARY);
+  private static final PkEpidEnc PUBLIC_KEY_EPID_11 =
+      new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
+  private static final PkEpidEnc PUBLIC_KEY_EPID_20 =
+      new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
+  private static final PkEcdsaEnc PUBLIC_KEY_ECDSA =
+      new PkEcdsaEnc(PublicKeyType.ECDSA_P_256, ECDSA_KEY_BINARY);
 
-  private static PKECDSAEnc ecdsa256PubKey;
-  private static PKECDSAEnc ecdsa384PubKey;
+  private static PkEcdsaEnc ecdsa256PubKey;
+  private static PkEcdsaEnc ecdsa384PubKey;
 
   @Mock private AuthenticatorFactory authenticatorFactory;
 
@@ -58,12 +58,16 @@ public class EcdsaSignatureVerifierTest {
 
   private EcdsaSignatureVerifier verifier;
 
+  /**
+   * Variable initialization.
+   * @throws Exception for InvalidPublicKeyTypeException and any other unhandled exceptions
+   */
   @BeforeMethod
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
     verifier = new EcdsaSignatureVerifier(authenticatorFactory);
-    ecdsa256PubKey = new PKECDSAEnc(PublicKeyType.NONE, generateEcPubKey("secp256r1").getEncoded());
-    ecdsa384PubKey = new PKECDSAEnc(PublicKeyType.NONE, generateEcPubKey("secp384r1").getEncoded());
+    ecdsa256PubKey = new PkEcdsaEnc(PublicKeyType.NONE, generateEcPubKey("secp256r1").getEncoded());
+    ecdsa384PubKey = new PkEcdsaEnc(PublicKeyType.NONE, generateEcPubKey("secp384r1").getEncoded());
 
     Mockito.when(authenticatorFactory.getAuthenticator(PublicKeyType.ECDSA_P_256))
         .thenReturn(authenticatorEcdsaWithSha256);
@@ -86,13 +90,13 @@ public class EcdsaSignatureVerifierTest {
 
   @Test(expectedExceptions = InvalidPublicKeyTypeException.class)
   public void testVerifySignatureInvalidPublicKeyType() throws Exception {
-    verifier.verify(PROVE_BODY, new PKNull(), SIGNATURE_BINARY);
+    verifier.verify(PROVE_BODY, new PkNull(), SIGNATURE_BINARY);
   }
 
   @Test(expectedExceptions = InvalidPublicKeyTypeException.class)
   public void testVerifySignatureEcdsa512() throws Exception {
-    PKECDSAEnc ecdsa512PubKey =
-        new PKECDSAEnc(PublicKeyType.NONE, generateEcPubKey("secp224k1").getEncoded());
+    PkEcdsaEnc ecdsa512PubKey =
+        new PkEcdsaEnc(PublicKeyType.NONE, generateEcPubKey("secp224k1").getEncoded());
     verifier.verify(PROVE_BODY, ecdsa512PubKey, SIGNATURE_BINARY);
   }
 

@@ -36,6 +36,9 @@ public class LoggingUtilsTest extends PowerMockTestCase {
 
   @Mock private HttpServletRequest httpServletRequest;
 
+  /**
+   * Variable initialization.
+   */
   @BeforeMethod
   public void setUp() {
     PowerMockito.mockStatic(RequestContextHolder.class);

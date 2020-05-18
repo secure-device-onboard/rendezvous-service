@@ -31,6 +31,12 @@ public class AuthenticatorEcdsaWithSha384Test {
     return g.generateKeyPair();
   }
 
+
+  /**
+   * Variable initialization.
+   * @throws Exception for NoSuchAlgorithmException, InvalidKeyException,
+   *                   SignatureException or any other unhandled exception.
+   */
   @BeforeMethod
   public void before() throws Exception {
     authenticator = new AuthenticatorEcdsaWithSha384();

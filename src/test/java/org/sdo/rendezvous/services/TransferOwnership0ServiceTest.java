@@ -39,6 +39,11 @@ public class TransferOwnership0ServiceTest {
   private HashGenerator hashGenerator;
   private OwnerSignRequest ownerSignRequest;
 
+
+  /**
+   * Variable initialization.
+   * @throws Exception for any unhandled exception
+   */
   @BeforeMethod
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);

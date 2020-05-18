@@ -8,7 +8,7 @@ node('ubuntu18.04-OnDemand') {
 
   // Stage to build the project
   stage('build rendezvous package'){
-    sh './build.sh'
+    sh 'mvn clean package'
     print "Archive the artifacts"
     sh 'tar -czvf demo.tar.gz demo/'
     archiveArtifacts artifacts: 'demo.tar.gz', fingerprint: true, allowEmptyArchive: false

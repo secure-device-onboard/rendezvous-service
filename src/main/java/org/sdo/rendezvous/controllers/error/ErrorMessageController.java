@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sdo.rendezvous.enums.AttributeName;
 import org.sdo.rendezvous.logging.aspects.generic.LogExecutionTime;
-import org.sdo.rendezvous.model.SdoURLMapping;
+import org.sdo.rendezvous.model.SdoUrlMapping;
 import org.sdo.rendezvous.model.beans.DeviceInfo;
 import org.sdo.rendezvous.model.requests.ErrorMessageRequest;
 import org.sdo.rendezvous.model.types.Device;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping(
-    value = {SdoURLMapping.TO_MSG_110, SdoURLMapping.TO_MSG_112, SdoURLMapping.TO_MSG_113},
+    value = {SdoUrlMapping.TO_MSG_110, SdoUrlMapping.TO_MSG_112, SdoUrlMapping.TO_MSG_113},
     consumes = MediaType.APPLICATION_JSON_VALUE)
 public class ErrorMessageController {
 
@@ -42,7 +42,7 @@ public class ErrorMessageController {
    * @return HTTP status code
    */
   @LogExecutionTime
-  @PostMapping(value = SdoURLMapping.ERROR_ENDPOINT)
+  @PostMapping(value = SdoUrlMapping.ERROR_ENDPOINT)
   public ResponseEntity<String> logErrorMessage(@RequestBody @Valid ErrorMessageRequest error) {
 
     String errorMessage = error.getErrorMessage();

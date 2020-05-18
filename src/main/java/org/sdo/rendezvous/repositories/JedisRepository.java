@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.sdo.rendezvous.exceptions.ResourceNotFoundException;
-import org.sdo.rendezvous.model.database.VersionedTO1Data;
+import org.sdo.rendezvous.model.database.VersionedTo1Data;
 import org.sdo.rendezvous.model.log.to1.TO1TransactionInfo;
 import org.sdo.rendezvous.utils.JsonUtils;
 import org.sdo.rendezvous.utils.RandomUtils;
@@ -47,7 +47,7 @@ public class JedisRepository {
    *     database
    * @throws IOException if a low-level I/O problem occurs
    */
-  public VersionedTO1Data getVersionedTO1Data(String guid)
+  public VersionedTo1Data getVersionedTO1Data(String guid)
       throws ResourceNotFoundException, IOException {
     try (Jedis jedis = jedisPool.getResource()) {
       String versionedTO1WithEcdsaSerialized = jedis.get(guid);
@@ -56,7 +56,7 @@ public class JedisRepository {
             "Not found owner connection info for GUID: " + guid + ".");
       }
       // Deserialization
-      return JsonUtils.mapJsonToObject(versionedTO1WithEcdsaSerialized, VersionedTO1Data.class);
+      return JsonUtils.mapJsonToObject(versionedTO1WithEcdsaSerialized, VersionedTo1Data.class);
     }
   }
 

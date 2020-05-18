@@ -5,7 +5,7 @@ package org.sdo.rendezvous.services;
 
 import lombok.RequiredArgsConstructor;
 import org.sdo.rendezvous.config.RendezvousConfig;
-import org.sdo.rendezvous.crypto.TO1JWTokenFactory;
+import org.sdo.rendezvous.crypto.To1JwTokenFactory;
 import org.sdo.rendezvous.exceptions.InvalidJwtTokenException;
 import org.sdo.rendezvous.model.MpConstants;
 import org.sdo.rendezvous.model.types.Device;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenParserService {
 
-  private final TO1JWTokenFactory to1JWTokenFactory;
+  private final To1JwTokenFactory to1JwTokenFactory;
   private final RendezvousConfig rendezvousConfig;
 
   /**
@@ -26,7 +26,7 @@ public class TokenParserService {
    * @throws InvalidJwtTokenException if jwt token is invalid
    */
   public Device getDeviceData(String jwt) throws InvalidJwtTokenException {
-    return to1JWTokenFactory.parseToken(jwt, rendezvousConfig.getHmacSecret());
+    return to1JwTokenFactory.parseToken(jwt, rendezvousConfig.getHmacSecret());
   }
 
   /**
@@ -36,7 +36,7 @@ public class TokenParserService {
    * @return built a JWT token from device instance as a String
    */
   public String getToken(Device device) {
-    return to1JWTokenFactory.buildToken(
+    return to1JwTokenFactory.buildToken(
         device.getGuid(), device.getNonce(), rendezvousConfig.getHmacSecret());
   }
 

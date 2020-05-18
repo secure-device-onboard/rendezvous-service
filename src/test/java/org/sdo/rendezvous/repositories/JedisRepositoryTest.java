@@ -15,13 +15,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.sdo.rendezvous.exceptions.ResourceNotFoundException;
-import org.sdo.rendezvous.model.database.VersionedTO1Data;
+import org.sdo.rendezvous.model.database.VersionedTo1Data;
 import org.sdo.rendezvous.model.log.to1.TO1TransactionInfo;
-import org.sdo.rendezvous.model.types.OwnerSignTO1Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
 import org.sdo.rendezvous.utils.JsonUtils;
 import org.sdo.rendezvous.utils.RandomUtils;
 import org.testng.annotations.BeforeMethod;
@@ -43,13 +43,14 @@ public class JedisRepositoryTest extends PowerMockTestCase {
   private static String MOCKED_RANDOM_SEQUENCE = "aaaaaaaaaa";
   private static String MOCKED_LOG_RECORD =
       "{\"guid\":\"00000000-0000-0000-0000-000000000003\","
-          + "\"ct\":\"Tue May 09 10:33:39 CEST 2017\",\"gid\":\"00000000000000000000000000001234\"}";
+          + "\"ct\":\"Tue May 09 10:33:39 CEST 2017\","
+          + "\"gid\":\"00000000000000000000000000001234\"}";
   private static String HASH_NAME = "TO1";
   private static int RANDOM_STRING_SIZE = 10;
   @Mock private JedisPool jedisPool;
   @Mock private Jedis jedis;
   @InjectMocks private JedisRepository jedisRepository;
-  private VersionedTO1Data versionedTO1Data = new VersionedTO1Data(new OwnerSignTO1Data());
+  private VersionedTo1Data versionedTO1Data = new VersionedTo1Data(new OwnerSignTo1Data());
 
   @BeforeMethod()
   public void setUp() {

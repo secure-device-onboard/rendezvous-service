@@ -101,7 +101,7 @@ services:
             # To use Verification Service in the Cloud change RENDEZVOUS_VERIFICATIONSERVICEHOST variable to point to proper address and set PROXY for SDO service if needed
             # Do not set http_proxy and https_proxy if you use local Verification Service
             # Non-production environment cloud verification sevice:
-            RENDEZVOUS_VERIFICATIONSERVICEHOST: https://verify.epid-sbx.trustedservices.intel.com:443
+            RENDEZVOUS_VERIFICATIONSERVICEHOST: https://verify.epid-sbx.trustedservices.intel.com
             # Production environment cloud verification sevice:
             #- RENDEZVOUS_VERIFICATIONSERVICEHOST: https://verify.epid.trustedservices.intel.com:443
             #- RENDEZVOUS_VERIFICATIONSERVICEHOST: https://u-verification-service:1180

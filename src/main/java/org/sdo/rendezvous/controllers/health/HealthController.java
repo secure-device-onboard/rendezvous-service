@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import org.sdo.rendezvous.config.InfoConfig;
 import org.sdo.rendezvous.config.RendezvousConfig;
 import org.sdo.rendezvous.logging.aspects.generic.LogExecutionTime;
-import org.sdo.rendezvous.model.SdoURLMapping;
+import org.sdo.rendezvous.model.SdoUrlMapping;
 import org.sdo.rendezvous.model.responses.FullHealthResponse;
 import org.sdo.rendezvous.model.responses.HealthResponse;
 import org.sdo.rendezvous.model.types.ComponentStatus;
@@ -38,7 +38,7 @@ public class HealthController {
    */
   @LogExecutionTime
   @GetMapping(
-      value = {SdoURLMapping.HEALTH_110, SdoURLMapping.HEALTH_112, SdoURLMapping.HEALTH_113})
+      value = {SdoUrlMapping.HEALTH_110, SdoUrlMapping.HEALTH_112, SdoUrlMapping.HEALTH_113})
   public ResponseEntity<HealthResponse> checkHealth() {
 
     HealthResponse hr = new HealthResponse(infoConfig.getVersion());
@@ -55,9 +55,9 @@ public class HealthController {
   @LogExecutionTime
   @GetMapping(
       value = {
-        SdoURLMapping.FULL_HEALTH_110,
-        SdoURLMapping.FULL_HEALTH_112,
-        SdoURLMapping.FULL_HEALTH_113
+        SdoUrlMapping.FULL_HEALTH_110,
+        SdoUrlMapping.FULL_HEALTH_112,
+        SdoUrlMapping.FULL_HEALTH_113
       })
   public ResponseEntity<FullHealthResponse> checkFullHealth() {
 

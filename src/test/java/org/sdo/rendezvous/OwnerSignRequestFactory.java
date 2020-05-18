@@ -9,15 +9,15 @@ import org.sdo.rendezvous.model.types.Hash;
 import org.sdo.rendezvous.model.types.HashType;
 import org.sdo.rendezvous.model.types.Hmac;
 import org.sdo.rendezvous.model.types.IpAddress;
-import org.sdo.rendezvous.model.types.OwnerSignTO0Data;
-import org.sdo.rendezvous.model.types.OwnerSignTO1Data;
-import org.sdo.rendezvous.model.types.OwnerSignTO1DataBody;
+import org.sdo.rendezvous.model.types.OwnerSignTo0Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo1DataBody;
 import org.sdo.rendezvous.model.types.OwnershipVoucher;
 import org.sdo.rendezvous.model.types.OwnershipVoucherEntry;
 import org.sdo.rendezvous.model.types.OwnershipVoucherEntryBody;
 import org.sdo.rendezvous.model.types.OwnershipVoucherHeader;
-import org.sdo.rendezvous.model.types.PKNull;
-import org.sdo.rendezvous.model.types.PKRMEEnc;
+import org.sdo.rendezvous.model.types.PkNull;
+import org.sdo.rendezvous.model.types.PkRmeEnc;
 import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.sdo.rendezvous.model.types.RendezvousInfo;
 import org.sdo.rendezvous.model.types.RendezvousInstr;
@@ -32,15 +32,20 @@ public class OwnerSignRequestFactory {
 
   }
 
+  /**
+   * Creating OwnerSignRequest message.
+   * @return OwnerSignRequest
+   * @throws Exception for unhandled exceptions
+   */
   public static OwnerSignRequest createOwnerSignRequest() throws Exception {
-    OwnerSignTO0Data to0Data = new OwnerSignTO0Data();
+    OwnerSignTo0Data to0Data = new OwnerSignTo0Data();
     to0Data.setOwnershipVoucher(createValidOwnershipVoucher());
     to0Data.setWaitSeconds(123);
     to0Data.setNonce(NONCE);
 
-    OwnerSignTO1Data to1Data = new OwnerSignTO1Data();
-    to1Data.setPubKey(new PKNull());
-    to1Data.setBody(new OwnerSignTO1DataBody());
+    OwnerSignTo1Data to1Data = new OwnerSignTo1Data();
+    to1Data.setPubKey(new PkNull());
+    to1Data.setBody(new OwnerSignTo1DataBody());
     to1Data.getBody().setDns("du.da.com");
     to1Data.getBody().setIpAddress(new IpAddress("127.0.0.1"));
     to1Data
@@ -70,6 +75,10 @@ public class OwnerSignRequestFactory {
     return request;
   }
 
+  /**
+   * Creating ownership voucher.
+   * @return OwnershipVoucher
+   */
   public static OwnershipVoucher createValidOwnershipVoucher() {
 
     RendezvousInstr rendezvousInstr = new RendezvousInstr();
@@ -90,14 +99,14 @@ public class OwnerSignRequestFactory {
     byte[] guid = DatatypeConverter.parseHexBinary("fb59d91b95ac43feecf1c105c713d16f");
     ownershipVoucherHeader.setGuid(guid);
 
-    PKRMEEnc manufacturerPubKey = getManufacturerPubKey();
+    PkRmeEnc manufacturerPubKey = getManufacturerPubKey();
     ownershipVoucherHeader.setManufacturerPublicKey(manufacturerPubKey);
     ownershipVoucherHeader.setRendezvousInfo(rendezvousInfo);
 
     // Manufacturer To Distributor entry
     OwnershipVoucherEntryBody manufacturerToDistributorEntryBody = new OwnershipVoucherEntryBody();
 
-    PKRMEEnc distributorPubKey = getDistributorPubKey();
+    PkRmeEnc distributorPubKey = getDistributorPubKey();
     manufacturerToDistributorEntryBody.setPublicKey(distributorPubKey);
     manufacturerToDistributorEntryBody.setGuidDeviceInfoHash(
         new Hash(HashType.SHA256, new byte[0]));
@@ -109,7 +118,7 @@ public class OwnerSignRequestFactory {
 
     OwnershipVoucherEntry manufacturerToDistributorEntry = new OwnershipVoucherEntry();
     manufacturerToDistributorEntry.setOwnershipVoucherEntryBody(manufacturerToDistributorEntryBody);
-    manufacturerToDistributorEntry.setPubKey(new PKNull());
+    manufacturerToDistributorEntry.setPubKey(new PkNull());
     byte[] manufacturerToDistributorEntrySignature =
         DatatypeConverter.parseHexBinary(
             "80117F8435773BA553CB9B9CD37BC014917C31A2C59C84A60AB3352F7BD57CEDD1873D580F48670"
@@ -127,7 +136,7 @@ public class OwnerSignRequestFactory {
 
     OwnershipVoucherEntryBody distributorToOwnerEntryBody = new OwnershipVoucherEntryBody();
 
-    PKRMEEnc ownerPubKey = getOwnerPubKey();
+    PkRmeEnc ownerPubKey = getOwnerPubKey();
     distributorToOwnerEntryBody.setPublicKey(ownerPubKey);
     distributorToOwnerEntryBody.setGuidDeviceInfoHash(new Hash(HashType.SHA256, new byte[0]));
     distributorToOwnerEntryBody.setPreviousEntryHash(
@@ -138,7 +147,7 @@ public class OwnerSignRequestFactory {
 
     OwnershipVoucherEntry distributorToOwnerEntry = new OwnershipVoucherEntry();
     distributorToOwnerEntry.setOwnershipVoucherEntryBody(distributorToOwnerEntryBody);
-    distributorToOwnerEntry.setPubKey(new PKNull());
+    distributorToOwnerEntry.setPubKey(new PkNull());
     byte[] distributorToOwnerEntrySignature =
         DatatypeConverter.parseHexBinary(
             "08FF275BBA084C14C11F9ADD381DACFE49E1A6D35A7DF86C45CF9E27ADFEC90E74E9256D51C954F42D"
@@ -164,7 +173,7 @@ public class OwnerSignRequestFactory {
     return ownershipVoucher;
   }
 
-  private static PKRMEEnc getManufacturerPubKey() {
+  private static PkRmeEnc getManufacturerPubKey() {
     byte[] manufacturerPkModulus =
         DatatypeConverter.parseHexBinary(
             "0096eb0862670544f9fde47c8e4f7651dc58bddd04155b89c85caae7527138fabd3231c3e0736175cad"
@@ -176,10 +185,10 @@ public class OwnerSignRequestFactory {
                 + "e5879ba16908e7bdcc1b1e6cf2afab4adb61");
 
     byte[] manufacturerPkExp = DatatypeConverter.parseHexBinary("010001");
-    return new PKRMEEnc(PublicKeyType.RSA2048RESTR, manufacturerPkModulus, manufacturerPkExp);
+    return new PkRmeEnc(PublicKeyType.RSA2048RESTR, manufacturerPkModulus, manufacturerPkExp);
   }
 
-  private static PKRMEEnc getDistributorPubKey() {
+  private static PkRmeEnc getDistributorPubKey() {
     byte[] distributorPkModulus =
         DatatypeConverter.parseHexBinary(
             "00878fe4722b44dd12c89a4cd1fe29cf17d0fc60da9052fd19131f9e39b9855cf2eae60411e446ad2d57"
@@ -191,10 +200,10 @@ public class OwnerSignRequestFactory {
                 + "cafc0b40d6089c670dd9a762404c77");
 
     byte[] distributorPkExp = DatatypeConverter.parseHexBinary("010001");
-    return new PKRMEEnc(PublicKeyType.RSA2048RESTR, distributorPkModulus, distributorPkExp);
+    return new PkRmeEnc(PublicKeyType.RSA2048RESTR, distributorPkModulus, distributorPkExp);
   }
 
-  private static PKRMEEnc getOwnerPubKey() {
+  private static PkRmeEnc getOwnerPubKey() {
     byte[] ownerPkModulus =
         DatatypeConverter.parseHexBinary(
             "00a90768d4c217e06f088cef0576b2ba4eecc2e993f24b6025d2aa189ae00bd954c3e614786bd4c4c64"
@@ -206,6 +215,6 @@ public class OwnerSignRequestFactory {
                 + "bb4b74e08f361adc30dd930fc2f6eecbc011");
 
     byte[] ownerPkExp = DatatypeConverter.parseHexBinary("010001");
-    return new PKRMEEnc(PublicKeyType.RSA2048RESTR, ownerPkModulus, ownerPkExp);
+    return new PkRmeEnc(PublicKeyType.RSA2048RESTR, ownerPkModulus, ownerPkExp);
   }
 }

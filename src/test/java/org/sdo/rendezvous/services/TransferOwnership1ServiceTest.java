@@ -18,7 +18,7 @@ import org.sdo.rendezvous.exceptions.InvalidNonceException;
 import org.sdo.rendezvous.exceptions.InvalidProveRequestException;
 import org.sdo.rendezvous.exceptions.InvalidSigInfoException;
 import org.sdo.rendezvous.exceptions.SdoException;
-import org.sdo.rendezvous.model.database.VersionedTO1Data;
+import org.sdo.rendezvous.model.database.VersionedTo1Data;
 import org.sdo.rendezvous.model.requests.to1.HelloSdoRequest;
 import org.sdo.rendezvous.model.requests.to1.ProveToSdoRequest;
 import org.sdo.rendezvous.model.responses.to1.HelloSdoAckResponse;
@@ -27,11 +27,11 @@ import org.sdo.rendezvous.model.types.Device;
 import org.sdo.rendezvous.model.types.Hash;
 import org.sdo.rendezvous.model.types.HashType;
 import org.sdo.rendezvous.model.types.IpAddress;
-import org.sdo.rendezvous.model.types.OwnerSignTO1Data;
-import org.sdo.rendezvous.model.types.OwnerSignTO1DataBody;
-import org.sdo.rendezvous.model.types.PKECDSAEnc;
-import org.sdo.rendezvous.model.types.PKEPIDEnc;
-import org.sdo.rendezvous.model.types.PKNull;
+import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
+import org.sdo.rendezvous.model.types.OwnerSignTo1DataBody;
+import org.sdo.rendezvous.model.types.PkEcdsaEnc;
+import org.sdo.rendezvous.model.types.PkEpidEnc;
+import org.sdo.rendezvous.model.types.PkNull;
 import org.sdo.rendezvous.model.types.ProveToSdoBody;
 import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.sdo.rendezvous.model.types.SigInfo;
@@ -74,20 +74,20 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
       new HelloSdoRequest(GUID, SIG_INFO_ECDSA);
   private static final ProveToSdoBody PROVE_BODY =
       new ProveToSdoBody(new AppId(AI_TYPE, AI_BYTES), NONCE, GUID);
-  private static final PKEPIDEnc PUBLIC_KEY_EPID =
-      new PKEPIDEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
-  private static final PKECDSAEnc PUBLIC_KEY_ECDSA =
-      new PKECDSAEnc(PublicKeyType.NONE, ECDSA_KEY_BINARY);
+  private static final PkEpidEnc PUBLIC_KEY_EPID =
+      new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
+  private static final PkEcdsaEnc PUBLIC_KEY_ECDSA =
+      new PkEcdsaEnc(PublicKeyType.NONE, ECDSA_KEY_BINARY);
   private static final Signature SIGNATURE = new Signature(SIGNATURE_BINARY);
   private static final ProveToSdoRequest PROVE_REQUEST_EPID =
       new ProveToSdoRequest(PROVE_BODY, PUBLIC_KEY_EPID, SIGNATURE);
   private static final ProveToSdoRequest PROVE_REQUEST_ECDSA =
       new ProveToSdoRequest(PROVE_BODY, PUBLIC_KEY_ECDSA, SIGNATURE);
-  private static final PKNull PK_NULL = new PKNull();
+  private static final PkNull PK_NULL = new PkNull();
   private static final Device DEVICE = new Device(GUID, NONCE);
-  private static OwnerSignTO1DataBody OWNER_SIGN_TO_1_DATA_BODY;
-  private static OwnerSignTO1Data OWNER_SIGN_TO_1_DATA;
-  private static VersionedTO1Data VERSIONED_TO1_DATA;
+  private static OwnerSignTo1DataBody OWNER_SIGN_TO_1_DATA_BODY;
+  private static OwnerSignTo1Data OWNER_SIGN_TO_1_DATA;
+  private static VersionedTo1Data VERSIONED_TO1_DATA;
 
   private TransferOwnership1Service transferOwnership1Service;
 
@@ -99,10 +99,15 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
 
   @Mock private SignatureVerifier signatureVerifier;
 
-  @Mock private PKNull wrongPk;
+  @Mock private PkNull wrongPk;
 
   @Mock private HelloSdoAckResponse helloSdoAckResponse;
 
+  /**
+   * Variable initialization.
+   * @throws Exception for InvalidSigInfoException, InvalidGroupIdException,
+   *                       InvalidGuidException and any other unhandled exception.
+   */
   @BeforeMethod
   public void beforeMethod() throws Exception {
     MockitoAnnotations.initMocks(this);
@@ -112,10 +117,10 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
         new TransferOwnership1Service(
             guidValidator, epidMaterialService, jedisRepository, signatureVerifier);
     OWNER_SIGN_TO_1_DATA_BODY =
-        new OwnerSignTO1DataBody(
+        new OwnerSignTo1DataBody(
             new IpAddress(IP_ADDRESS), DNS, PORT, new Hash(HashType.SHA256, HASH_BINARY));
-    OWNER_SIGN_TO_1_DATA = new OwnerSignTO1Data(OWNER_SIGN_TO_1_DATA_BODY, PK_NULL, SIGNATURE);
-    VERSIONED_TO1_DATA = new VersionedTO1Data(OWNER_SIGN_TO_1_DATA);
+    OWNER_SIGN_TO_1_DATA = new OwnerSignTo1Data(OWNER_SIGN_TO_1_DATA_BODY, PK_NULL, SIGNATURE);
+    VERSIONED_TO1_DATA = new VersionedTo1Data(OWNER_SIGN_TO_1_DATA);
 
     Mockito.when(epidMaterialService.getSigInfo(HELLO_REQUEST_EPID.getSigInfo()))
         .thenReturn(SIG_INFO_EPID);
@@ -160,7 +165,7 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
 
   @Test
   public void testGetProveToSdoResponseEpid() throws Exception {
-    OwnerSignTO1Data response =
+    OwnerSignTo1Data response =
         transferOwnership1Service.getProveToSdoResponse(DEVICE, PROVE_REQUEST_EPID);
     Assert.assertEquals(response.getBody(), OWNER_SIGN_TO_1_DATA_BODY);
     Assert.assertEquals(response.getPubKey(), PK_NULL);
@@ -169,7 +174,7 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
 
   @Test
   public void testGetProveToSdoResponseEcdsa() throws Exception {
-    OwnerSignTO1Data response =
+    OwnerSignTo1Data response =
         transferOwnership1Service.getProveToSdoResponse(DEVICE, PROVE_REQUEST_ECDSA);
     Assert.assertEquals(response.getBody(), OWNER_SIGN_TO_1_DATA_BODY);
     Assert.assertEquals(response.getPubKey(), PK_NULL);

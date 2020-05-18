@@ -5,6 +5,7 @@ package org.sdo.rendezvous.config;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -13,23 +14,29 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "rendezvous")
 public class RendezvousConfig {
 
   private static final int MILLIS_IN_MIN = 60000;
 
+  @Value("${rendezvous.hmacSecret}")
   private String hmacSecret;
 
+  @Value("${rendezvous.verificationServiceHost}")
   private String verificationServiceHost;
 
+  @Value("${rendezvous.tOTokenExpirationTime}")
   private int toTokenExpirationTime;
 
+  @Value("${rendezvous.ownershipVoucherMaxEntries}")
   private int ownershipVoucherMaxEntries;
 
+  @Value("${rendezvous.signatureVerification}")
   private boolean signatureVerification;
 
+  @Value("${rendezvous.opKeyVerification}")
   private boolean opKeyVerification;
 
+  @Value("${rendezvous.waitSecondsLimit}")
   private int waitSecondsLimit;
 
   public int getToTokenExpirationTime() {

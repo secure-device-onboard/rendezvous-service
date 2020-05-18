@@ -125,14 +125,14 @@ class OwnershipVoucherVerifier implements IOwnershipVoucherVerifier {
     for (OwnershipVoucherEntry entry : ownershipVoucherEntries) {
       OwnershipVoucherEntryBody entryBody = entry.getOwnershipVoucherEntryBody();
       if (previousKeyType.isEcdsa()) {
-        validateECDSAPubkeyEncodingAgainstHashType(
+        validateEcdsaPubkeyEncodingAgainstHashType(
             previousKeyType, entryBody.getPreviousEntryHash().getHashType());
       }
       previousKeyType = entryBody.getPublicKey().getPkType();
     }
   }
 
-  private void validateECDSAPubkeyEncodingAgainstHashType(
+  private void validateEcdsaPubkeyEncodingAgainstHashType(
       PublicKeyType pubkeyType, HashType hashType) throws InvalidOwnershipVoucherException {
     if (pubkeyType.equals(PublicKeyType.ECDSA_P_256) && hashType.equals(HashType.SHA256)) {
       return;

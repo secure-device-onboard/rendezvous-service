@@ -16,16 +16,16 @@ import org.sdo.rendezvous.exceptions.InvalidNonceException;
 import org.sdo.rendezvous.exceptions.InvalidProveRequestException;
 import org.sdo.rendezvous.exceptions.InvalidSigInfoException;
 import org.sdo.rendezvous.exceptions.SdoException;
-import org.sdo.rendezvous.model.database.VersionedTO1Data;
+import org.sdo.rendezvous.model.database.VersionedTo1Data;
 import org.sdo.rendezvous.model.log.to1.EpidTO1TransactionInfo;
 import org.sdo.rendezvous.model.log.to1.TO1TransactionInfo;
 import org.sdo.rendezvous.model.requests.to1.HelloSdoRequest;
 import org.sdo.rendezvous.model.requests.to1.ProveToSdoRequest;
 import org.sdo.rendezvous.model.responses.to1.HelloSdoAckResponse;
 import org.sdo.rendezvous.model.types.Device;
-import org.sdo.rendezvous.model.types.OwnerSignTO1Data;
-import org.sdo.rendezvous.model.types.PKECDSAEnc;
-import org.sdo.rendezvous.model.types.PKEPIDEnc;
+import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
+import org.sdo.rendezvous.model.types.PkEcdsaEnc;
+import org.sdo.rendezvous.model.types.PkEpidEnc;
 import org.sdo.rendezvous.model.types.PubKey;
 import org.sdo.rendezvous.model.types.SigInfo;
 import org.sdo.rendezvous.repositories.JedisRepository;
@@ -81,13 +81,13 @@ public class TransferOwnership1Service {
    * @throws IOException if an I/O error occurs
    * @throws SdoException if the problem with validation owner sign request occurs
    */
-  public OwnerSignTO1Data getProveToSdoResponse(Device device, ProveToSdoRequest proveRequest)
+  public OwnerSignTo1Data getProveToSdoResponse(Device device, ProveToSdoRequest proveRequest)
       throws IOException, SdoException {
 
     verifyTokenData(proveRequest, device);
     log.info("Token data successfully verified.");
 
-    VersionedTO1Data versionedTO1Data =
+    VersionedTo1Data versionedTO1Data =
         jedisRepository.getVersionedTO1Data(
             ByteConverter.getGuidFromByteArray(proveRequest.getProveToSdoBody().getGuid()));
     PubKey publicKey = getPubKey(proveRequest, versionedTO1Data);
@@ -96,7 +96,7 @@ public class TransferOwnership1Service {
         proveRequest.getProveToSdoBody(), publicKey, proveRequest.getSignature().getBytes());
     log.info("Signature successfully verified.");
     saveTransactionInfo(proveRequest);
-    return new OwnerSignTO1Data(versionedTO1Data.getTo1Data());
+    return new OwnerSignTo1Data(versionedTO1Data.getTo1Data());
   }
 
   private void saveTransactionInfo(ProveToSdoRequest proveToSdoRequest)
@@ -111,14 +111,14 @@ public class TransferOwnership1Service {
           new EpidTO1TransactionInfo(
               ByteConverter.getGuidFromByteArray(proveToSdoRequest.getProveToSdoBody().getGuid()),
               DatatypeConverter.printHexBinary(
-                  ((PKEPIDEnc) proveToSdoRequest.getPublicKey()).getEpidGroupNo()));
+                  ((PkEpidEnc) proveToSdoRequest.getPublicKey()).getEpidGroupNo()));
     }
     jedisRepository.setTransactionInfo(transactionInfo);
   }
 
-  private PubKey getPubKey(ProveToSdoRequest proveRequest, VersionedTO1Data versionedTO1Data) {
+  private PubKey getPubKey(ProveToSdoRequest proveRequest, VersionedTo1Data versionedTO1Data) {
     if (isPublicKeyEcdsa(proveRequest)) {
-      return new PKECDSAEnc(
+      return new PkEcdsaEnc(
           proveRequest.getPublicKey().getPkType(), versionedTO1Data.getEcdsaPublicKey());
     }
     return proveRequest.getPublicKey();

@@ -13,8 +13,8 @@ import org.mockito.MockitoAnnotations;
 import org.sdo.rendezvous.exceptions.InvalidEpidSignatureException;
 import org.sdo.rendezvous.exceptions.InvalidPublicKeyTypeException;
 import org.sdo.rendezvous.model.types.AppId;
-import org.sdo.rendezvous.model.types.PKECDSAEnc;
-import org.sdo.rendezvous.model.types.PKEPIDEnc;
+import org.sdo.rendezvous.model.types.PkEcdsaEnc;
+import org.sdo.rendezvous.model.types.PkEpidEnc;
 import org.sdo.rendezvous.model.types.ProveToSdoBody;
 import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.sdo.rendezvous.services.EpidVerificationService;
@@ -36,12 +36,12 @@ public class EpidSignatureVerifierTest {
       DatatypeConverter.parseHexBinary("00000005AF2121201321100000000005");
   private static final byte[] ECDSA_KEY_BINARY =
       DatatypeConverter.parseHexBinary("212dA2121F212121C21C5FA2121C121B2121212E121FF2");
-  private static final PKEPIDEnc PUBLIC_KEY_EPID_11 =
-      new PKEPIDEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
-  private static final PKEPIDEnc PUBLIC_KEY_EPID_20 =
-      new PKEPIDEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
-  private static final PKECDSAEnc PUBLIC_KEY_ECDSA =
-      new PKECDSAEnc(PublicKeyType.ECDSA_P_256, ECDSA_KEY_BINARY);
+  private static final PkEpidEnc PUBLIC_KEY_EPID_11 =
+      new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
+  private static final PkEpidEnc PUBLIC_KEY_EPID_20 =
+      new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
+  private static final PkEcdsaEnc PUBLIC_KEY_ECDSA =
+      new PkEcdsaEnc(PublicKeyType.ECDSA_P_256, ECDSA_KEY_BINARY);
 
   @Mock private EpidVerificationService epidVerificationService;
 

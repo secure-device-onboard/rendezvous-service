@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.sdo.rendezvous.config.RendezvousConfig;
-import org.sdo.rendezvous.crypto.TO1JWTokenFactory;
+import org.sdo.rendezvous.crypto.To1JwTokenFactory;
 import org.sdo.rendezvous.exceptions.InvalidJwtTokenException;
 import org.sdo.rendezvous.model.types.Device;
 import org.testng.Assert;
@@ -24,9 +24,13 @@ public class TokenParserServiceTest {
 
   @Mock private RendezvousConfig rendezvousConfig;
 
-  @Mock private TO1JWTokenFactory to1JwTokenFactory;
+  @Mock private To1JwTokenFactory to1JwTokenFactory;
   private TokenParserService tokenParserService;
 
+
+  /**
+   * Variable initialization.
+   */
   @BeforeMethod
   public void beforeMethod() {
     MockitoAnnotations.initMocks(this);

@@ -47,7 +47,7 @@ public class DefaultSdoExceptionHandler {
    * application/json into HttpServletResponse.
    *
    * @param exception is a HttpMessageNotReadableException which is thrown and forwarded to the
-   *     method when HttpMessageConverter.read(java.lang.Class<? extends T>,
+   *     method when HttpMessageConverter.read(java.lang.Class &lt;\? extends T&gt;,
    *     org.springframework.http.HttpInputMessage) method fails
    * @param response is an interface to provide HTTP-specific functionality, used as an output
    * @return ResponseEntity with status code

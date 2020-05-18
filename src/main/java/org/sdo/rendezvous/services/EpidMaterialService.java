@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.sdo.rendezvous.enums.EpidVersion;
 import org.sdo.rendezvous.exceptions.InvalidGroupIdException;
 import org.sdo.rendezvous.exceptions.InvalidSigInfoException;
-import org.sdo.rendezvous.model.SdoURLMapping;
+import org.sdo.rendezvous.model.SdoUrlMapping;
 import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.sdo.rendezvous.model.types.SigInfo;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ class EpidMaterialService {
           if (!httpServletRequest
               .getRequestURL()
               .toString()
-              .contains(SdoURLMapping.PROTOCOL_VERSION_110)) {
+              .contains(SdoUrlMapping.PROTOCOL_VERSION_110)) {
             sigInfoBytes.add(epidVerificationService.getSigrl(sigInfo, epidVersion));
           }
           break;

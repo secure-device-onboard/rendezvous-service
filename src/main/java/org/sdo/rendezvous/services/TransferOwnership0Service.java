@@ -16,7 +16,7 @@ import org.sdo.rendezvous.crypto.IHashGenerator;
 import org.sdo.rendezvous.enums.DeviceAttestationMethod;
 import org.sdo.rendezvous.exceptions.InvalidOwnershipVoucherException;
 import org.sdo.rendezvous.exceptions.SdoException;
-import org.sdo.rendezvous.model.database.VersionedTO1Data;
+import org.sdo.rendezvous.model.database.VersionedTo1Data;
 import org.sdo.rendezvous.model.log.to0.TO0TransactionInfo;
 import org.sdo.rendezvous.model.requests.to0.OwnerSignRequest;
 import org.sdo.rendezvous.model.types.Cert;
@@ -67,7 +67,7 @@ public class TransferOwnership0Service {
           ByteConverter.getGuidFromByteArray(ownerSignRequest.getGuid()));
       log.info("WaitSeconds value is 0. TO1 data has been removed.");
     } else {
-      VersionedTO1Data versionedTO1Data = new VersionedTO1Data(ownerSignRequest.getTo1Data());
+      VersionedTo1Data versionedTO1Data = new VersionedTo1Data(ownerSignRequest.getTo1Data());
       if (ownerSignRequestVerifier.getDeviceAttestationMethod(ownerSignRequest)
           == DeviceAttestationMethod.ECDSA) {
         Cert deviceCert = getDeviceCert(ownerSignRequest);
