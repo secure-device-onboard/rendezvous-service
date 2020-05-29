@@ -1,0 +1,15 @@
+node('ubuntu18.04-OnDemand') {
+
+  // Stage for checking out the sourceCode
+  stage('scm checkout'){
+    checkout scm
+  }
+
+  // Stage to build the project
+  stage('build rendezvous package'){
+    sh '''
+      export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+      ./build.sh
+    '''
+  }
+}
