@@ -27,7 +27,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-@PowerMockIgnore({"javax.xml.*", "org.xml.sax.*"})
+@PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "javax.management.*"})
 @PrepareForTest({RequestContextHolder.class, SessionAttributeHolder.class})
 public class TransferOwnership0ControllerTest extends PowerMockTestCase {
 

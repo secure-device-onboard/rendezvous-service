@@ -50,7 +50,7 @@ services:
         pids_limit: 10
 
     u-rendezvous-service:
-        image: rendezvous-service:1.8
+        image: rendezvous-service:1.9
         container_name: rendezvous-service
         expose:
             - "8000"

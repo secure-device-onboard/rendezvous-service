@@ -5,7 +5,6 @@ package org.sdo.rendezvous.services;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-
 import javax.xml.bind.DatatypeConverter;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -23,7 +22,9 @@ import org.sdo.rendezvous.model.types.SigInfo;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
+@PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "javax.management.*"}) 
 @PrepareForTest(HttpClient.class)
 public class EpidVerificationServiceTest extends PowerMockTestCase {
 
