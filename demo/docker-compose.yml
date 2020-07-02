@@ -47,7 +47,7 @@ services:
         cpu_shares: 5
         mem_limit: 50m
         mem_reservation: 10m
-        pids_limit: 10
+        pids_limit: 100
 
     u-rendezvous-service:
         image: rendezvous-service:1.9
