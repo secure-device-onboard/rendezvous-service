@@ -101,10 +101,8 @@ public class OwnershipVoucherVerifierTest {
   @Test
   public void testVerifyOpKeyVerificationDisabled() throws Exception {
     Mockito.when(rendezvousConfig.isOpKeyVerification()).thenReturn(false);
-    ownershipVoucher
-        .getOwnershipVoucherEntries()[0]
-        .getOwnershipVoucherEntryBody()
-        .setGuidDeviceInfoHash(INVALID_GUID_DEVICE_HASH);
+    ownershipVoucher.getOwnershipVoucherEntries()[0]
+        .getOwnershipVoucherEntryBody().setGuidDeviceInfoHash(INVALID_GUID_DEVICE_HASH);
     ownershipVoucherVerifier.verify(ownershipVoucher);
   }
 
@@ -122,10 +120,8 @@ public class OwnershipVoucherVerifierTest {
 
   @Test(expectedExceptions = InvalidOwnershipVoucherException.class)
   public void testVerifyInvalidHash() throws Exception {
-    ownershipVoucher
-        .getOwnershipVoucherEntries()[0]
-        .getOwnershipVoucherEntryBody()
-        .setPreviousEntryHash(INVALID_HASH);
+    ownershipVoucher.getOwnershipVoucherEntries()[0]
+        .getOwnershipVoucherEntryBody().setPreviousEntryHash(INVALID_HASH);
     ownershipVoucherVerifier.verify(ownershipVoucher);
   }
 
@@ -186,8 +182,7 @@ public class OwnershipVoucherVerifierTest {
 
   @Test(expectedExceptions = InvalidOwnershipVoucherException.class)
   public void testVerifyInvalidEntryBody() throws Exception {
-    ownershipVoucher
-        .getOwnershipVoucherEntries()[0]
+    ownershipVoucher.getOwnershipVoucherEntries()[0]
         .getOwnershipVoucherEntryBody()
         .setGuidDeviceInfoHash(INVALID_GUID_DEVICE_HASH);
     ownershipVoucherVerifier.verify(ownershipVoucher);
@@ -195,17 +190,14 @@ public class OwnershipVoucherVerifierTest {
 
   @Test(expectedExceptions = InvalidOwnershipVoucherException.class)
   public void testVerifyInvalidPublicKeyInLastEntry() throws Exception {
-    ownershipVoucher
-        .getOwnershipVoucherEntries()[1]
-        .getOwnershipVoucherEntryBody()
-        .setPublicKey(INVALID_PUBKEY);
+    ownershipVoucher.getOwnershipVoucherEntries()[1]
+        .getOwnershipVoucherEntryBody().setPublicKey(INVALID_PUBKEY);
     ownershipVoucherVerifier.verify(ownershipVoucher);
   }
 
   @Test(expectedExceptions = InvalidOwnershipVoucherException.class)
   public void testVerifyPubKeyMissmatch() throws Exception {
-    ownershipVoucher
-        .getOwnershipVoucherEntries()[1]
+    ownershipVoucher.getOwnershipVoucherEntries()[1]
         .getOwnershipVoucherEntryBody()
         .setPublicKey(new PkX509Enc(PublicKeyType.ECDSA_P_256, new byte[] {}));
     ownershipVoucherVerifier.verify(ownershipVoucher);
