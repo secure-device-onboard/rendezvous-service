@@ -22,6 +22,13 @@ public class PublicKeyTypeTest {
     Assert.assertEquals(publicKeyType, PublicKeyType.EPID_1_1);
   }
 
+  @Test
+  public void testValueOfOnDieEcdsaPositive() throws Exception {
+    int index = 93;
+    PublicKeyType publicKeyType = PublicKeyType.valueOf(index);
+    Assert.assertEquals(publicKeyType, PublicKeyType.ONDIE_ECDSA_384);
+  }
+
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testValueOfNegative() throws Exception {
     int index = -1;

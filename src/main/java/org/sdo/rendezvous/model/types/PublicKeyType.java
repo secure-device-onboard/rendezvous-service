@@ -20,6 +20,7 @@ public enum PublicKeyType {
   EPID_1_0(90),
   EPID_1_1(91),
   EPID_2_0(92),
+  ONDIE_ECDSA_384(93),
   ECC_P_256(113),
   ECC_P_384(114);
 
@@ -51,6 +52,10 @@ public enum PublicKeyType {
 
   public boolean isEpid() {
     return this == EPID_1_0 || this == EPID_1_1 || this == EPID_2_0;
+  }
+
+  public boolean isOnDieEcdsa() {
+    return this == ONDIE_ECDSA_384;
   }
 
   @Override

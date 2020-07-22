@@ -28,6 +28,9 @@ public class AuthenticatorFactoryTest {
   public void testGetAuthenticatorSha384() throws Exception {
     Authenticator authenticator = authenticatorFactory.getAuthenticator(PublicKeyType.ECDSA_P_384);
     Assert.assertTrue(authenticator instanceof AuthenticatorEcdsaWithSha384);
+
+    authenticator = authenticatorFactory.getAuthenticator(PublicKeyType.ONDIE_ECDSA_384);
+    Assert.assertTrue(authenticator instanceof AuthenticatorOnDieEcdsaWithSha384);
   }
 
   @Test

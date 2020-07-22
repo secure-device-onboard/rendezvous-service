@@ -16,6 +16,7 @@ import java.util.Map;
 import org.sdo.rendezvous.model.requests.to1.ProveToSdoRequest;
 import org.sdo.rendezvous.model.types.PkEpidEnc;
 import org.sdo.rendezvous.model.types.PkNull;
+import org.sdo.rendezvous.model.types.PkOnDieEcdsaNull;
 import org.sdo.rendezvous.model.types.ProveToSdoBody;
 import org.sdo.rendezvous.model.types.PubKey;
 import org.sdo.rendezvous.model.types.PublicKeyType;
@@ -29,6 +30,7 @@ public class ProveToSdoRequestDeserializer extends JsonDeserializer<ProveToSdoRe
           PublicKeyType.EPID_1_0, PkEpidEnc.class,
           PublicKeyType.EPID_1_1, PkEpidEnc.class,
           PublicKeyType.EPID_2_0, PkEpidEnc.class,
+          PublicKeyType.ONDIE_ECDSA_384, PkOnDieEcdsaNull.class,
           PublicKeyType.NONE, PkNull.class);
 
   @Override

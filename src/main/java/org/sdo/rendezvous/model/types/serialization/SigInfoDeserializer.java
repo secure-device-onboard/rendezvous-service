@@ -28,7 +28,8 @@ public class SigInfoDeserializer extends JsonDeserializer<SigInfo> {
           PublicKeyType.EPID_1_1,
           PublicKeyType.EPID_2_0,
           PublicKeyType.ECDSA_P_256,
-          PublicKeyType.ECDSA_P_384);
+          PublicKeyType.ECDSA_P_384,
+          PublicKeyType.ONDIE_ECDSA_384);
 
   @Override
   public SigInfo deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)

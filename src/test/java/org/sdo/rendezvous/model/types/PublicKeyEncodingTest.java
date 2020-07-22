@@ -22,6 +22,13 @@ public class PublicKeyEncodingTest {
     Assert.assertEquals(publicKeyEncoding, PublicKeyEncoding.EPID);
   }
 
+  @Test
+  public void testValueOfOnDieEcdsapositive() throws Exception {
+    int index = 5;
+    PublicKeyEncoding publicKeyEncoding = PublicKeyEncoding.valueOf(index);
+    Assert.assertEquals(publicKeyEncoding, PublicKeyEncoding.ONDIE_ECDSA);
+  }
+
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testValueOfNegative() throws Exception {
     int index = -1;

@@ -22,7 +22,10 @@ public class PkX509EncDeserializer extends JsonDeserializer<PkX509Enc> {
   private static final int PKX509_INDEX = 1;
   private static final ImmutableSet<PublicKeyType> ALLOWED_TYPES =
       ImmutableSet.of(
-          PublicKeyType.RSA2048RESTR, PublicKeyType.ECDSA_P_256, PublicKeyType.ECDSA_P_384);
+          PublicKeyType.RSA2048RESTR,
+          PublicKeyType.ECDSA_P_256,
+          PublicKeyType.ECDSA_P_384,
+          PublicKeyType.ONDIE_ECDSA_384);
 
   @Override
   public PkX509Enc deserialize(JsonParser jsonParser, DeserializationContext ctxt)

@@ -26,6 +26,7 @@ import org.sdo.rendezvous.model.types.Device;
 import org.sdo.rendezvous.model.types.OwnerSignTo1Data;
 import org.sdo.rendezvous.model.types.PkEcdsaEnc;
 import org.sdo.rendezvous.model.types.PkEpidEnc;
+import org.sdo.rendezvous.model.types.PkOnDieEcdsaEnc;
 import org.sdo.rendezvous.model.types.PubKey;
 import org.sdo.rendezvous.model.types.SigInfo;
 import org.sdo.rendezvous.repositories.JedisRepository;
@@ -102,7 +103,7 @@ public class TransferOwnership1Service {
   private void saveTransactionInfo(ProveToSdoRequest proveToSdoRequest)
       throws JsonProcessingException, InvalidGuidException {
     TO1TransactionInfo transactionInfo;
-    if (isPublicKeyEcdsa(proveToSdoRequest)) {
+    if (isPublicKeyEcdsa(proveToSdoRequest) || isPublicKeyOnDieEcdsa(proveToSdoRequest)) {
       transactionInfo =
           new TO1TransactionInfo(
               ByteConverter.getGuidFromByteArray(proveToSdoRequest.getProveToSdoBody().getGuid()));
@@ -120,13 +121,16 @@ public class TransferOwnership1Service {
     if (isPublicKeyEcdsa(proveRequest)) {
       return new PkEcdsaEnc(
           proveRequest.getPublicKey().getPkType(), versionedTO1Data.getEcdsaPublicKey());
+    } else if (isPublicKeyOnDieEcdsa(proveRequest)) {
+      return new PkOnDieEcdsaEnc(
+          proveRequest.getPublicKey().getPkType(), versionedTO1Data.getEcdsaPublicKey());
     }
     return proveRequest.getPublicKey();
   }
 
   private SigInfo getSigInfo(HelloSdoRequest helloRequest)
       throws InvalidSigInfoException, InvalidGroupIdException {
-    if (isPublicKeyEcdsa(helloRequest)) {
+    if (isPublicKeyEcdsa(helloRequest) || isPublicKeyOnDieEcdsa(helloRequest)) {
       return helloRequest.getSigInfo();
     }
     return epidMaterialService.getSigInfo(helloRequest.getSigInfo());
@@ -148,5 +152,13 @@ public class TransferOwnership1Service {
 
   private boolean isPublicKeyEcdsa(ProveToSdoRequest proveToSdoRequest) {
     return proveToSdoRequest.getPublicKey().getPkType().isNone();
+  }
+
+  private boolean isPublicKeyOnDieEcdsa(HelloSdoRequest helloSdoRequest) {
+    return helloSdoRequest.getSigInfo().getSigInfoType().isOnDieEcdsa();
+  }
+
+  private boolean isPublicKeyOnDieEcdsa(ProveToSdoRequest proveToSdoRequest) {
+    return proveToSdoRequest.getPublicKey().getPkType().isOnDieEcdsa();
   }
 }
