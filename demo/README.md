@@ -6,6 +6,8 @@
     * [Docker compose settings](#docker-compose-configuration)
 1. [Run service](#docker-commands)
 
+**NOTE**: The Rendezvous Service demo is provided solely to demonstrate the operation of the Secure Device Onboard Rendezvous service with an example database and configuration.   _This demo is not recommended for use in any production capacity._  Appropriate security measures with respect to key-store management and configuration management should be considered while performing production deployment of any Secure Device Onboard components.
+
 # System requirements
 
 * Operating system: Linux Ubuntu 18.04.
