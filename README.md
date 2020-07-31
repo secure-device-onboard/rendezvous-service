@@ -62,10 +62,15 @@ The Rendezvous Service can block the whole Ownership Voucher by adding GUID into
 
 **Prepare ownership voucher keys whitelist**:
 * Create Redis Hash **OP_KEYS_WHITELIST**
-* Calculate SHA256 hash of an ownership voucher public key (upper case, example: "0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725")
+* Calculate SHA256 hash of an ownership voucher public key using command. <br/>
+NOTE: Input file cert.pem is an X509 certificate. <br/>
+(upper case, example: "0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725")
+```
+$ openssl x509 -in cert.pem -pubkey -noout | openssl enc -base64 -d > example_whitelist_publickey.der 
+```
 * Add the calculated hash to the **OP_KEYS_WHITELIST** with the calculated hash as a key and "1" as a value, example:
 ```
-$ cat ./trustmanagement/example_whitelist_publickey.der | openssl dgst -sha256 | awk '/s/{print toupper($2)}'
+$ cat example_whitelist_publickey.der | openssl dgst -sha256 | awk '/s/{print toupper($2)}'
 0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725
 ```
 
