@@ -68,7 +68,7 @@ node('ubuntu18.04-OnDemand') {
         print "Rendezvous-service smoke Tests with  Client-SDKDevice, SCT-Manufacturer"
         sh '''
           cd sdo-test
-          mvn clean test -Dgroups=CdeviceOnPremTests
+          mvn clean verify -Dgroups=CdeviceOnPremTests
         '''
         }
     } finally {
