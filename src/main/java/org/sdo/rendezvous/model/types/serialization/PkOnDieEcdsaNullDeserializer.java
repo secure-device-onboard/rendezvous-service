@@ -20,6 +20,7 @@ import org.sdo.rendezvous.model.types.PublicKeyType;
 public class PkOnDieEcdsaNullDeserializer extends JsonDeserializer<PkOnDieEcdsaNull> {
 
   private static final int PK_ON_DIE_ECDSA_TYPE_INDEX = 0;
+  private static final int PK_ON_DIE_ECDSA_ENCODING_INDEX = 1;
   private static final int PK_ON_DIE_ECDSA_NULL_OBJECT_INDEX = 2;
   private static final int PK_ON_DIE_ECDSA_NULL_VALUE_INDEX = 0;
 
@@ -35,14 +36,19 @@ public class PkOnDieEcdsaNullDeserializer extends JsonDeserializer<PkOnDieEcdsaN
           jsonParser, "PKOnDieEcdsaNull must have pkType set to OnDieEcdsa.");
     }
 
+    int pkEncoding = jsonNode.get(PK_ON_DIE_ECDSA_ENCODING_INDEX).asInt();
+    if (pkEncoding != PublicKeyEncoding.ONDIE_ECDSA.getIndex()) {
+      throw new JsonParseException(jsonParser, "PKOnDieEcdsaNull encoding is invalid.");
+    }
+
     JsonNode pkNullObect = jsonNode.get(PK_ON_DIE_ECDSA_NULL_OBJECT_INDEX);
     if (!pkNullObect.isArray()) {
       throw new JsonParseException(jsonParser, "PKNull (jsonNode) is not an array.");
     }
 
-    int pkEncoding = pkNullObect.get(PK_ON_DIE_ECDSA_NULL_VALUE_INDEX).asInt();
-    if (pkEncoding != PublicKeyEncoding.NONE.getIndex()) {
-      throw new JsonParseException(jsonParser, "PKOnDieEcdsaNull encoding is invalid.");
+    int pkValue = pkNullObect.get(PK_ON_DIE_ECDSA_NULL_VALUE_INDEX).asInt();
+    if (pkValue != PublicKeyEncoding.NONE.getIndex()) {
+      throw new JsonParseException(jsonParser, "PKOnDieEcdsaNull value is invalid.");
     }
 
     return new PkOnDieEcdsaNull();

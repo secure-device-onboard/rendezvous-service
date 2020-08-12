@@ -30,13 +30,19 @@ public class PkOnDieEcdsaNullDeserializerTest {
   }
 
   @Test(expectedExceptions = JsonProcessingException.class)
+  public void testPkOnDieEcdsaNullDeserializerEncodingNotFiveNegative() throws Exception {
+    String json = "[93,0,0]";
+    mapper.readValue(json, PkOnDieEcdsaNull.class);
+  }
+
+  @Test(expectedExceptions = JsonProcessingException.class)
   public void testPkOnDieEcdsaNullDeserializerNotArrayNegative() throws Exception {
     String json = "[93,5,0]";
     mapper.readValue(json, PkOnDieEcdsaNull.class);
   }
 
   @Test(expectedExceptions = JsonProcessingException.class)
-  public void testPkOnDieEcdsaNullDeserializerNotZeroNegative() throws Exception {
+  public void testPkOnDieEcdsaNullDeserializerValueNotZeroNegative() throws Exception {
     String json = "[93,5,[1]]";
     mapper.readValue(json, PkOnDieEcdsaNull.class);
   }
