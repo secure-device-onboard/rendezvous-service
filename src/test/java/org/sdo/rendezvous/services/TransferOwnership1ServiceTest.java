@@ -78,11 +78,15 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
       new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
   private static final PkEcdsaEnc PUBLIC_KEY_ECDSA =
       new PkEcdsaEnc(PublicKeyType.NONE, ECDSA_KEY_BINARY);
+  private static final PkEcdsaEnc PUBLIC_KEY_ON_DIE_ECDSA =
+          new PkEcdsaEnc(PublicKeyType.ONDIE_ECDSA_384, ECDSA_KEY_BINARY);
   private static final Signature SIGNATURE = new Signature(SIGNATURE_BINARY);
   private static final ProveToSdoRequest PROVE_REQUEST_EPID =
       new ProveToSdoRequest(PROVE_BODY, PUBLIC_KEY_EPID, SIGNATURE);
   private static final ProveToSdoRequest PROVE_REQUEST_ECDSA =
       new ProveToSdoRequest(PROVE_BODY, PUBLIC_KEY_ECDSA, SIGNATURE);
+  private static final ProveToSdoRequest PROVE_REQUEST_ON_DIE_ECDSA =
+          new ProveToSdoRequest(PROVE_BODY, PUBLIC_KEY_ON_DIE_ECDSA, SIGNATURE);
   private static final PkNull PK_NULL = new PkNull();
   private static final Device DEVICE = new Device(GUID, NONCE);
   private static OwnerSignTo1DataBody OWNER_SIGN_TO_1_DATA_BODY;
@@ -176,6 +180,15 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
   public void testGetProveToSdoResponseEcdsa() throws Exception {
     OwnerSignTo1Data response =
         transferOwnership1Service.getProveToSdoResponse(DEVICE, PROVE_REQUEST_ECDSA);
+    Assert.assertEquals(response.getBody(), OWNER_SIGN_TO_1_DATA_BODY);
+    Assert.assertEquals(response.getPubKey(), PK_NULL);
+    Assert.assertEquals(response.getSignature(), SIGNATURE);
+  }
+
+  @Test
+  public void testGetProveToSdoResponseOnDieEcdsa() throws Exception {
+    OwnerSignTo1Data response =
+            transferOwnership1Service.getProveToSdoResponse(DEVICE, PROVE_REQUEST_ON_DIE_ECDSA);
     Assert.assertEquals(response.getBody(), OWNER_SIGN_TO_1_DATA_BODY);
     Assert.assertEquals(response.getPubKey(), PK_NULL);
     Assert.assertEquals(response.getSignature(), SIGNATURE);

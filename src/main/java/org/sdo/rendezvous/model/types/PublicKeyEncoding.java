@@ -12,7 +12,8 @@ public enum PublicKeyEncoding {
   NONE(0),
   X509(1),
   RSAMODEXP(3),
-  EPID(4);
+  EPID(4),
+  ONDIE_ECDSA(5);
 
   private int index;
 

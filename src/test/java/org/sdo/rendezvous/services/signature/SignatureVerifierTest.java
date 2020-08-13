@@ -37,10 +37,14 @@ public class SignatureVerifierTest {
       new PkEpidEnc(PublicKeyType.EPID_1_1, EPID_KEY_BINARY);
   private static final PkEcdsaEnc PUBLIC_KEY_ECDSA_PROVE =
       new PkEcdsaEnc(PublicKeyType.NONE, ECDSA_KEY_BINARY);
+  private static final PkEcdsaEnc PUBLIC_KEY_ON_DIE_ECDSA_PROVE =
+          new PkEcdsaEnc(PublicKeyType.ONDIE_ECDSA_384, ECDSA_KEY_BINARY);
 
   @Mock private EpidSignatureVerifier epidSignatureVerifier;
 
   @Mock private EcdsaSignatureVerifier ecdsaSignatureVerifier;
+
+  @Mock private OnDieEcdsaSignatureVerifier onDieEcdsaSignatureVerifier;
 
   @Mock private RendezvousConfig rendezvousConfig;
 
@@ -54,7 +58,11 @@ public class SignatureVerifierTest {
     MockitoAnnotations.initMocks(this);
     Mockito.when(rendezvousConfig.isSignatureVerification()).thenReturn(true);
     signatureVerifier =
-        new SignatureVerifier(epidSignatureVerifier, ecdsaSignatureVerifier, rendezvousConfig);
+        new SignatureVerifier(
+            epidSignatureVerifier,
+            ecdsaSignatureVerifier,
+            onDieEcdsaSignatureVerifier,
+            rendezvousConfig);
   }
 
   @Test
@@ -70,6 +78,11 @@ public class SignatureVerifierTest {
   @Test
   public void testVerifySignatureEpid20() throws Exception {
     signatureVerifier.verify(PROVE_BODY, PUBLIC_KEY_EPID_20, SIGNATURE_BINARY);
+  }
+
+  @Test
+  public void testVerifySignatureOnDieEcdsa() throws Exception {
+    signatureVerifier.verify(PROVE_BODY, PUBLIC_KEY_ON_DIE_ECDSA_PROVE, SIGNATURE_BINARY);
   }
 
   @Test(expectedExceptions = InvalidPublicKeyTypeException.class)

@@ -28,6 +28,8 @@ public class AuthenticatorFactory {
         return new AuthenticatorEcdsaWithSha256();
       case ECDSA_P_384:
         return new AuthenticatorEcdsaWithSha384();
+      case ONDIE_ECDSA_384:
+        return new AuthenticatorOnDieEcdsaWithSha384();
       case RSA2048RESTR:
         return new AuthenticatorRsaWithSha256();
       default:

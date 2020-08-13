@@ -17,6 +17,7 @@ import org.sdo.rendezvous.model.types.PublicKeyType;
 public class PkNullDeserializer extends JsonDeserializer<PkNull> {
 
   private static final int PK_TYPE_INDEX = 0;
+  private static final int PK_ENCODING_INDEX = 1;
   private static final int PKNULL_OBJECT_INDEX = 2;
   private static final int PKNULL_VALUE_INDEX = 0;
 
@@ -30,14 +31,19 @@ public class PkNullDeserializer extends JsonDeserializer<PkNull> {
       throw new JsonParseException(jsonParser, "PKNull must have pkType set to none.");
     }
 
+    int pkEncoding = jsonNode.get(PK_ENCODING_INDEX).asInt();
+    if (pkEncoding != PublicKeyEncoding.NONE.getIndex()) {
+      throw new JsonParseException(jsonParser, "PKNull encoding is invalid.");
+    }
+
     JsonNode pkNullObect = jsonNode.get(PKNULL_OBJECT_INDEX);
     if (!pkNullObect.isArray()) {
       throw new JsonParseException(jsonParser, "PKNull (jsonNode) is not an array.");
     }
 
-    int pkEncoding = pkNullObect.get(PKNULL_VALUE_INDEX).asInt();
-    if (pkEncoding != PublicKeyEncoding.NONE.getIndex()) {
-      throw new JsonParseException(jsonParser, "PKNull encoding is invalid.");
+    int pkValue = pkNullObect.get(PKNULL_VALUE_INDEX).asInt();
+    if (pkValue != PublicKeyEncoding.NONE.getIndex()) {
+      throw new JsonParseException(jsonParser, "PKNull value is invalid.");
     }
 
     return new PkNull();

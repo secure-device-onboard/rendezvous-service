@@ -18,6 +18,7 @@ public class SignatureVerifier implements ISignatureVerifier {
 
   private final EpidSignatureVerifier epidSignatureVerifier;
   private final EcdsaSignatureVerifier ecdsaSignatureVerifier;
+  private final OnDieEcdsaSignatureVerifier onDieEcdsaSignatureVerifier;
   private final RendezvousConfig rendezvousConfig;
 
   @Override
@@ -28,6 +29,8 @@ public class SignatureVerifier implements ISignatureVerifier {
         ecdsaSignatureVerifier.verify(signatureBody, publicKey, signature);
       } else if (publicKey.getPkType().isEpid()) {
         epidSignatureVerifier.verify(signatureBody, publicKey, signature);
+      } else if (publicKey.getPkType().isOnDieEcdsa()) {
+        onDieEcdsaSignatureVerifier.verify(signatureBody, publicKey, signature);
       } else {
         throw new InvalidPublicKeyTypeException(
             String.format(

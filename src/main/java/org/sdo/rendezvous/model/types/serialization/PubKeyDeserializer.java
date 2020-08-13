@@ -14,6 +14,7 @@ import com.google.common.collect.ImmutableMap;
 import java.io.IOException;
 import org.sdo.rendezvous.model.types.PkEpidEnc;
 import org.sdo.rendezvous.model.types.PkNull;
+import org.sdo.rendezvous.model.types.PkOnDieEcdsaNull;
 import org.sdo.rendezvous.model.types.PkRmeEnc;
 import org.sdo.rendezvous.model.types.PkX509Enc;
 import org.sdo.rendezvous.model.types.PubKey;
@@ -25,6 +26,7 @@ public class PubKeyDeserializer extends JsonDeserializer<PubKey> {
   private static final ImmutableMap<PublicKeyEncoding, Class<? extends PubKey>> PUBKEY_SUBTYPES =
       ImmutableMap.of(
           PublicKeyEncoding.NONE, PkNull.class,
+          PublicKeyEncoding.ONDIE_ECDSA, PkOnDieEcdsaNull.class,
           PublicKeyEncoding.X509, PkX509Enc.class,
           PublicKeyEncoding.RSAMODEXP, PkRmeEnc.class,
           PublicKeyEncoding.EPID, PkEpidEnc.class);
