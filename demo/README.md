@@ -56,6 +56,16 @@ Review the docker-compose.yml file and follow instructions in the file to custom
 
 # Docker commands
 
+Before starting the docker deployment ensure that the local redis server is not in running state.
+* Command to check the local redis server status
+```
+$ sudo systemctl status redis
+```
+* Command to stop local redis server status
+```
+$ sudo systemctl stop redis
+```
+
 ## Start Docker
 * Use the following command to start the docker container.
 ```
