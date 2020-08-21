@@ -16,9 +16,11 @@ Rendezvous service is a software service that permits the Device to find its cur
 
 ### System requirements
 
-* **Linux Ubuntu 18.04**.
+* **Ubuntu 18.04**.
 * **Maven**.
 * **Java 11**.
+* **Docker Engine 18.06.0**. (Optional)
+* **Docker-compose 1.23.2**. (Optional)
 * **Redis database** [page][2]
 * **Redis via SSL** [page][3] - usage of stunnel to secure redis (optional)
 
@@ -161,7 +163,7 @@ JVM options can be set to configure Rendezvous service:
 ```
 https.proxyPort
 https.proxyHost
-http.proxyHost
+http.proxyPort
 http.proxyHost
 ```
 
