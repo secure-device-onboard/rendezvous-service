@@ -14,8 +14,8 @@
 * Operating system: Ubuntu 18.04.
 
 *  Linux packages:<br/><br/>
-`Docker engine (minimum version 18.06.0)`<br/><br/>
-`Docker-compose (minimum version 1.23.2)`<br/>
+`Docker engine (minimum version 18.09)`<br/><br/>
+`Docker-compose (minimum version 1.21.2)`<br/>
 
 # Instructions
 
