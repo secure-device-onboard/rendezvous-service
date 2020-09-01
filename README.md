@@ -24,7 +24,7 @@ Rendezvous service is a software service that permits the Device to find its cur
 * **Redis database** [page][2]
 * **Redis via SSL** [page][3] - usage of stunnel to secure redis (optional)
 
-### Build Rendezvous service war file
+### Build Rendezvous Service War File
 * To build rendezvous service, execute the following command:
 ```
 $ mvn install
@@ -49,7 +49,7 @@ $ mvn clean verify
 ```
 The code coverage report is stored in the directory ./target/site/jacoco/test/html
 
-### Trust management
+### Trust Management
 Before you read this section please install and set up your Redis database.
 
 High level information:
@@ -62,10 +62,10 @@ holder before they are configured into the Rendezvous Service.
 The Rendezvous Service can block the whole Ownership Voucher by adding one of the keys into the blacklist.
 The Rendezvous Service can block the whole Ownership Voucher by adding GUID into the blacklist.
 
-**Prepare ownership voucher keys whitelist**:
+**Prepare Ownership Voucher Keys Whitelist**:
 * Create Redis Hash **OP_KEYS_WHITELIST**
 * Calculate SHA256 hash of an ownership voucher public key using command. <br/>
-NOTE: Input file cert.pem is an X509 certificate. <br/>
+***NOTE:*** Input file cert.pem is an X509 certificate. <br/>
 (upper case, example: "0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725")
 ```
 $ openssl x509 -in cert.pem -pubkey -noout | openssl enc -base64 -d > example_whitelist_publickey.der 
@@ -84,7 +84,7 @@ $ 127.0.0.1:6379> HEXISTS OP_KEYS_WHITELIST "0734FAC43DBE455D531930B6A8E02404335
 $ (integer) 1 
 ```
 
-**Prepare ownership voucher keys blacklist**:
+**Prepare Ownership Voucher Keys Blacklist**:
 * Create Redis Hash **OP_KEYS_BLACKLIST**
 * Calculate SHA256 hash of an ownership voucher public key (upper case, example "3055924C4AF1A77FD365C380F9B3CFC40C5F8C79B1EC6492F0D15648E9792CA2")
 * Add the calculated hash to the **OP_KEYS_BLACKLIST** with the calculated hash as a key and "1" as a value, example:
@@ -100,7 +100,7 @@ $ 127.0.0.1:6379> HEXISTS OP_KEYS_BLACKLIST "3055924C4AF1A77FD365C380F9B3CFC40C5
 $ (integer) 1 
 ```
 
-**Prepare guid blacklist**:
+**Prepare guid Blacklist**:
 * Create Redis Hash **GUIDS_BLACKLIST**
 * Add the guid (upper case, without dashes, example "0000000000000000000000000000FFFF") to the **GUIDS_BLACKLIST** with the guid as a key and "1" as a value, example: 
 ```
@@ -127,11 +127,11 @@ To see how to generate keystore and truststore, visit [page][1].
 ***Important***: 
 -	rendezvous-trustedRootCA.jks must contain a Verification service certificate or root CA to enable communication between the Rendezvous service and the Verification service.
 -	in case you want to use the secure redis, rendezvous-trustedRootCA.jks must contain a certificate from the configured redis server [page][3]
--   Keystore and Truststore provided here are example implementation using simplified credentials. This must be changed while performing production deployment.
+-  Keystore and Truststore provided here are example implementation using simplified credentials. This must be changed while performing production deployment.
 
-### Run Rendezvous service
+### Run Rendezvous Service
 
-#### Rendezvous service settings
+#### Rendezvous Service Settings
 JVM options can be set to configure Rendezvous service:
 
 | Java Option | Description |
@@ -157,7 +157,7 @@ JVM options can be set to configure Rendezvous service:
 | spring.profiles.active | Rendezvous service spring profile (production, development, onprem) |
 | rendezvous.hmacSecret | The BASE64-encoded algorithm-specific signing key to use to digitally sign the JWT |
 
-#### Proxy settings
+#### Proxy Settings
 
 * To use external Verification service from behind proxy set the following JVM flags, more info [here][4]:
 ```
@@ -167,7 +167,7 @@ http.proxyPort
 http.proxyHost
 ```
 
-#### Run service
+#### Run Service
 
 To run the Rendezvous service as a war you can use the prepared script rendezvousService.sh.
 ```
