@@ -1,13 +1,13 @@
 ## Table of Contents
 1. [About](#about)
-1. [System requirements](#system-requirements)
-1. [Build Rendezvous service war file](#build-rendezvous-service-war-file)
-1. [Trust management](#trust-management)
+1. [System Requirements](#system-requirements)
+1. [Build Rendezvous Service War File](#build-rendezvous-service-war-file)
+1. [Trust Management](#trust-management)
 1. [Generate Keystores](#generate-keystores)
-1. [Run Rendezvous service](#run-rendezvous-service)
-    * [Rendezvous service settings](#rendezvous-service-settings)
-    * [Proxy settings](#proxy-settings)
-    * [Run service](#run-service)
+1. [Run Rendezvous Service](#run-rendezvous-service)
+    * [Rendezvous Service Settings](#rendezvous-service-settings)
+    * [Proxy Settings](#proxy-settings)
+    * [Run Service](#run-service)
 1. [Rendezvous Service Docker Deployment](demo/README.md)
 
 ### About
