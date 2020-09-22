@@ -24,8 +24,8 @@ public class OvPublicKeyTrustValidatorTest extends PowerMockTestCase {
 
   private OvPublicKeyTrustValidator ovPublicKeyTrustValidator;
 
-  private String whitelistHashsetName = "OP_KEYS_WHITELIST";
-  private String blacklistHashsetName = "OP_KEYS_BLACKLIST";
+  private String allowlistHashsetName = "OP_KEYS_ALLOWLIST";
+  private String denylistHashsetName = "OP_KEYS_DENYLIST";
   private String keyHash =
       "30820122300D06092A864886F70D01010105000382010F003082010A028201010096EB0862670544F9F"
           + "DE47C8E4F7651DC58BDDD04155B89C85CAAE7527138FABD3231C3E0736175CADB4FAE6ED892B2E8"
@@ -44,27 +44,27 @@ public class OvPublicKeyTrustValidatorTest extends PowerMockTestCase {
     MockitoAnnotations.initMocks(this);
     ovPublicKeyTrustValidator = new OvPublicKeyTrustValidator(jedisPool);
     Mockito.when(jedisPool.getResource()).thenReturn(jedis);
-    Mockito.when(jedis.hexists(blacklistHashsetName, keyHash)).thenReturn(false);
+    Mockito.when(jedis.hexists(denylistHashsetName, keyHash)).thenReturn(false);
   }
 
   @Test
-  public void testVerifyWhitelistPositive() throws InvalidOwnershipVoucherException {
-    Mockito.when(jedis.hexists(whitelistHashsetName, keyHash)).thenReturn(true);
+  public void testVerifyAllowlistPositive() throws InvalidOwnershipVoucherException {
+    Mockito.when(jedis.hexists(allowlistHashsetName, keyHash)).thenReturn(true);
     boolean result = ovPublicKeyTrustValidator.verify(DatatypeConverter.parseHexBinary(keyHash));
     Assert.assertTrue(result);
   }
 
   @Test
-  public void testVerifyWhitelistNegative() throws InvalidOwnershipVoucherException {
-    Mockito.when(jedis.hexists(whitelistHashsetName, keyHash)).thenReturn(false);
+  public void testVerifyAllowlistNegative() throws InvalidOwnershipVoucherException {
+    Mockito.when(jedis.hexists(allowlistHashsetName, keyHash)).thenReturn(false);
     boolean result = ovPublicKeyTrustValidator.verify(DatatypeConverter.parseHexBinary(keyHash));
     Assert.assertFalse(result);
   }
 
   @Test(expectedExceptions = InvalidOwnershipVoucherException.class)
-  public void testVerifyBlacklistShouldThrow() throws InvalidOwnershipVoucherException {
-    Mockito.when(jedis.hexists(blacklistHashsetName, keyHash)).thenReturn(true);
-    Mockito.when(jedis.hexists(whitelistHashsetName, keyHash)).thenReturn(false);
+  public void testVerifyDenylistShouldThrow() throws InvalidOwnershipVoucherException {
+    Mockito.when(jedis.hexists(denylistHashsetName, keyHash)).thenReturn(true);
+    Mockito.when(jedis.hexists(allowlistHashsetName, keyHash)).thenReturn(false);
     ovPublicKeyTrustValidator.verify(DatatypeConverter.parseHexBinary(keyHash));
   }
 }

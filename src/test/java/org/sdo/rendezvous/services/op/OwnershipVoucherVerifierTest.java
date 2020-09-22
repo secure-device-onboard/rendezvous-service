@@ -18,7 +18,7 @@ import org.sdo.rendezvous.config.RendezvousConfig;
 import org.sdo.rendezvous.crypto.HashGenerator;
 import org.sdo.rendezvous.exceptions.InvalidOwnershipVoucherException;
 import org.sdo.rendezvous.exceptions.InvalidSignatureException;
-import org.sdo.rendezvous.model.beans.WhitelistedHashes;
+import org.sdo.rendezvous.model.beans.AllowlistHashes;
 import org.sdo.rendezvous.model.types.Hash;
 import org.sdo.rendezvous.model.types.HashType;
 import org.sdo.rendezvous.model.types.Hmac;
@@ -64,7 +64,7 @@ public class OwnershipVoucherVerifierTest {
 
   @Mock private Authenticator authenticator;
 
-  @Mock private WhitelistedHashes whitelistedHashes;
+  @Mock private AllowlistHashes allowlistHashes;
 
   private HashGenerator hashGenerator;
   private IOwnershipVoucherVerifier ownershipVoucherVerifier;
@@ -88,7 +88,7 @@ public class OwnershipVoucherVerifierTest {
             rendezvousConfig,
             ovPublicKeyTrustValidator,
             authenticatorFactory,
-            whitelistedHashes,
+                allowlistHashes,
             hashGenerator);
     ownershipVoucher = OwnerSignRequestFactory.createValidOwnershipVoucher();
   }

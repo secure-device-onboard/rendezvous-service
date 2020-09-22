@@ -10,7 +10,7 @@ import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
-public class WhitelistedHashes {
+public class AllowlistHashes {
   private List<byte[]> hashes = new ArrayList<>();
 
   public void add(byte[] hash) {

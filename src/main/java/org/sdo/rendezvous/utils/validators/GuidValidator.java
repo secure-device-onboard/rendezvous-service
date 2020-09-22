@@ -6,7 +6,7 @@ package org.sdo.rendezvous.utils.validators;
 import javax.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.sdo.rendezvous.exceptions.GuidBlacklistedException;
+import org.sdo.rendezvous.exceptions.GuidDenylistException;
 import org.sdo.rendezvous.exceptions.InvalidGuidException;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
@@ -17,26 +17,26 @@ import redis.clients.jedis.JedisPool;
 @RequiredArgsConstructor
 public class GuidValidator {
 
-  private static final String GUID_BLACKLIST_LABEL = "GUIDS_BLACKLIST";
-  private static final String GUID_BLACKLISTED_LOG_MSG = "GUID {} is blacklisted";
+  private static final String GUID_DENYLIST_LABEL = "GUIDS_DENYLIST";
+  private static final String GUID_DENYLIST_LOG_MSG = "GUID {} is denylist";
 
   private static final int VALID_GUID_SIZE = 16;
 
   private final JedisPool jedisPool;
 
   /**
-   * Verifies whether the specified guid is on the blacklist in the database.
+   * Verifies whether the specified guid is on the denylist in the database.
    *
    * @param guidBytes the guid as an array of bytes
-   * @throws GuidBlacklistedException if the guid is blacklisted
+   * @throws GuidDenylistException if the guid is in denylist
    */
-  public void verifyAgainstBlackList(byte[] guidBytes) throws GuidBlacklistedException {
+  public void verifyAgainstDenyList(byte[] guidBytes) throws GuidDenylistException {
     String guid = DatatypeConverter.printHexBinary(guidBytes).toUpperCase();
     try (Jedis jedis = jedisPool.getResource()) {
 
-      if (jedis.hexists(GUID_BLACKLIST_LABEL, guid)) {
-        log.info(GUID_BLACKLISTED_LOG_MSG, guid);
-        throw new GuidBlacklistedException("GUID is blacklisted.");
+      if (jedis.hexists(GUID_DENYLIST_LABEL, guid)) {
+        log.info(GUID_DENYLIST_LOG_MSG, guid);
+        throw new GuidDenylistException("GUID is in denylist.");
       }
     }
   }

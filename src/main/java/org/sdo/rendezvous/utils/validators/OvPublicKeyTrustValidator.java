@@ -16,36 +16,36 @@ import redis.clients.jedis.JedisPool;
 @Slf4j
 public class OvPublicKeyTrustValidator {
 
-  private static final String WHITELIST_HASHSET_NAME = "OP_KEYS_WHITELIST";
-  private static final String BLACKLIST_HASHSET_NAME = "OP_KEYS_BLACKLIST";
+  private static final String ALLOWLIST_HASHSET_NAME = "OP_KEYS_ALLOWLIST";
+  private static final String DENYLIST_HASHSET_NAME = "OP_KEYS_DENYLIST";
 
   private final JedisPool jedisPool;
 
   /**
-   * Verifies whether the specified keyHash from Ownership Voucher is not on the blacklist or
-   * whitelist.
+   * Verifies whether the specified keyHash from Ownership Voucher is not on the denylist or
+   * allowlist.
    *
    * @param keyHash the key hash
-   * @return true if key hash is on the whitelist
-   * @throws InvalidOwnershipVoucherException if the key hash is on the blacklist
+   * @return true if key hash is on the allowlist
+   * @throws InvalidOwnershipVoucherException if the key hash is on the denylist
    */
   public boolean verify(byte[] keyHash) throws InvalidOwnershipVoucherException {
 
     String hexHash = DatatypeConverter.printHexBinary(keyHash);
     try (Jedis jedis = jedisPool.getResource()) {
 
-      if (jedis.hexists(BLACKLIST_HASHSET_NAME, hexHash)) {
-        log.info("Key hash {} from Ownership Voucher is blacklisted.", hexHash);
+      if (jedis.hexists(DENYLIST_HASHSET_NAME, hexHash)) {
+        log.info("Key hash {} from Ownership Voucher is in denylist.", hexHash);
         throw new InvalidOwnershipVoucherException(
-            "One of keys in Ownership voucher is blacklisted.");
+            "One of keys in Ownership voucher is in denylist.");
       }
 
-      boolean result = jedis.hexists(WHITELIST_HASHSET_NAME, hexHash);
+      boolean result = jedis.hexists(ALLOWLIST_HASHSET_NAME, hexHash);
 
       if (result) {
-        log.info("Hash {} found on the whitelist", hexHash);
+        log.info("Hash {} found on the allowlist", hexHash);
       } else {
-        log.info("Hash {} not found on the whitelist.", hexHash);
+        log.info("Hash {} not found on the allowlist.", hexHash);
       }
 
       return result;

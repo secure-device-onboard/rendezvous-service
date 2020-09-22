@@ -59,55 +59,55 @@ This can be done using a back channel to supply public key hashes to the Rendezv
 by cooperating supply-chain entities.
 It is imperative, for security reasons, that these keys are stripped of any associated data that identify the key
 holder before they are configured into the Rendezvous Service.
-The Rendezvous Service can block the whole Ownership Voucher by adding one of the keys into the blacklist.
-The Rendezvous Service can block the whole Ownership Voucher by adding GUID into the blacklist.
+The Rendezvous Service can block the whole Ownership Voucher by adding one of the keys into the denylist.
+The Rendezvous Service can block the whole Ownership Voucher by adding GUID into the denylist.
 
-**Prepare ownership voucher keys whitelist**:
-* Create Redis Hash **OP_KEYS_WHITELIST**
+**Prepare ownership voucher keys allowlist**:
+* Create Redis Hash **OP_KEYS_ALLOWLIST**
 * Calculate SHA256 hash of an ownership voucher public key using command. <br/>
 NOTE: Input file cert.pem is an X509 certificate. <br/>
 (upper case, example: "0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725")
 ```
-$ openssl x509 -in cert.pem -pubkey -noout | openssl enc -base64 -d > example_whitelist_publickey.der 
+$ openssl x509 -in cert.pem -pubkey -noout | openssl enc -base64 -d > example_allowlist_publickey.der 
 ```
-* Add the calculated hash to the **OP_KEYS_WHITELIST** with the calculated hash as a key and "1" as a value, example:
+* Add the calculated hash to the **OP_KEYS_ALLOWLIST** with the calculated hash as a key and "1" as a value, example:
 ```
-$ cat example_whitelist_publickey.der | openssl dgst -sha256 | awk '/s/{print toupper($2)}'
+$ cat example_allowlist_publickey.der | openssl dgst -sha256 | awk '/s/{print toupper($2)}'
 0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725
 ```
 
 ```
 $ redis-cli
-$ 127.0.0.1:6379> HSET OP_KEYS_WHITELIST "0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725" 1
+$ 127.0.0.1:6379> HSET OP_KEYS_ALLOWLIST "0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725" 1
 $ (integer) 1
-$ 127.0.0.1:6379> HEXISTS OP_KEYS_WHITELIST "0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725"
+$ 127.0.0.1:6379> HEXISTS OP_KEYS_ALLOWLIST "0734FAC43DBE455D531930B6A8E024043356541BFFCC7A250E417EC38E217725"
 $ (integer) 1 
 ```
 
-**Prepare ownership voucher keys blacklist**:
-* Create Redis Hash **OP_KEYS_BLACKLIST**
+**Prepare ownership voucher keys denylist**:
+* Create Redis Hash **OP_KEYS_DENYLIST**
 * Calculate SHA256 hash of an ownership voucher public key (upper case, example "3055924C4AF1A77FD365C380F9B3CFC40C5F8C79B1EC6492F0D15648E9792CA2")
-* Add the calculated hash to the **OP_KEYS_BLACKLIST** with the calculated hash as a key and "1" as a value, example:
+* Add the calculated hash to the **OP_KEYS_DENYLIST** with the calculated hash as a key and "1" as a value, example:
 ```
-$ cat ./trustmanagement/example_blacklist_publickey.der | openssl dgst -sha256 | awk '/s/{print toupper($2)}'
+$ cat ./trustmanagement/example_denylist_publickey.der | openssl dgst -sha256 | awk '/s/{print toupper($2)}'
 ```
 
 ```
 $ redis-cli
-$ 127.0.0.1:6379> HSET OP_KEYS_BLACKLIST "3055924C4AF1A77FD365C380F9B3CFC40C5F8C79B1EC6492F0D15648E9792CA2" 1
+$ 127.0.0.1:6379> HSET OP_KEYS_DENYLIST "3055924C4AF1A77FD365C380F9B3CFC40C5F8C79B1EC6492F0D15648E9792CA2" 1
 $ (integer) 1
-$ 127.0.0.1:6379> HEXISTS OP_KEYS_BLACKLIST "3055924C4AF1A77FD365C380F9B3CFC40C5F8C79B1EC6492F0D15648E9792CA2"
+$ 127.0.0.1:6379> HEXISTS OP_KEYS_DENYLIST "3055924C4AF1A77FD365C380F9B3CFC40C5F8C79B1EC6492F0D15648E9792CA2"
 $ (integer) 1 
 ```
 
-**Prepare guid blacklist**:
-* Create Redis Hash **GUIDS_BLACKLIST**
-* Add the guid (upper case, without dashes, example "0000000000000000000000000000FFFF") to the **GUIDS_BLACKLIST** with the guid as a key and "1" as a value, example: 
+**Prepare guid denylist**:
+* Create Redis Hash **GUIDS_DENYLIST**
+* Add the guid (upper case, without dashes, example "0000000000000000000000000000FFFF") to the **GUIDS_DENYLIST** with the guid as a key and "1" as a value, example: 
 ```
 $ redis-cli
-$ 127.0.0.1:6379> HSET GUIDS_BLACKLIST "0000000000000000000000000000FFFF" 1
+$ 127.0.0.1:6379> HSET GUIDS_DENYLIST "0000000000000000000000000000FFFF" 1
 $ (integer) 1
-$ 127.0.0.1:6379> HEXISTS GUIDS_BLACKLIST "0000000000000000000000000000FFFF"
+$ 127.0.0.1:6379> HEXISTS GUIDS_DENYLIST "0000000000000000000000000000FFFF"
 $ (integer) 1 
 ```
 

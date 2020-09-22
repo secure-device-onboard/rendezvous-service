@@ -21,7 +21,7 @@ import org.sdo.rendezvous.exceptions.InvalidOwnershipVoucherException;
 import org.sdo.rendezvous.exceptions.InvalidPublicKeyTypeException;
 import org.sdo.rendezvous.exceptions.InvalidSignatureException;
 import org.sdo.rendezvous.exceptions.ResourceNotFoundException;
-import org.sdo.rendezvous.model.beans.WhitelistedHashes;
+import org.sdo.rendezvous.model.beans.AllowlistHashes;
 import org.sdo.rendezvous.model.types.HashType;
 import org.sdo.rendezvous.model.types.Hmac;
 import org.sdo.rendezvous.model.types.OwnershipVoucher;
@@ -41,7 +41,7 @@ class OwnershipVoucherVerifier implements IOwnershipVoucherVerifier {
   private final RendezvousConfig rendezvousConfig;
   private final OvPublicKeyTrustValidator ovPublicKeyTrustValidator;
   private final AuthenticatorFactory authenticatorFactory;
-  private final WhitelistedHashes whitelistedHashes;
+  private final AllowlistHashes allowlistHashes;
   private final IHashGenerator hashGenerator;
 
   @Override
@@ -68,7 +68,7 @@ class OwnershipVoucherVerifier implements IOwnershipVoucherVerifier {
           generatePreviousHashDataForFirstEntry(header, ownershipVoucher.getHmac());
 
       PublicKey previousKey = header.getManufacturerPublicKey().asJavaPublicKey();
-      boolean isKeyWhitelisted = validateAgainstWhiteAndBlackList(previousKey);
+      boolean isKeyAllowlist = validateAgainstAllowAndDenyList(previousKey);
 
       validateKeysEncodingAgainstHashAlgorithms(previousKeyType, ownershipVoucherEntries);
 
@@ -77,8 +77,8 @@ class OwnershipVoucherVerifier implements IOwnershipVoucherVerifier {
         log.debug(
             "Verifying trust of ownership voucher key for entry {}.",
             ownershipVoucherEntries.indexOf(entry));
-        isKeyWhitelisted |=
-            validateAgainstWhiteAndBlackList(
+        isKeyAllowlist |=
+            validateAgainstAllowAndDenyList(
                 entry.getOwnershipVoucherEntryBody().getPublicKey().asJavaPublicKey());
         byte[] previousHash =
             hashGenerator.generate(
@@ -104,8 +104,8 @@ class OwnershipVoucherVerifier implements IOwnershipVoucherVerifier {
                 .getBytes();
       }
 
-      if (!isKeyWhitelisted) {
-        log.error("No public key from ownership voucher is on the whitelist.");
+      if (!isKeyAllowlist) {
+        log.error("No public key from ownership voucher is on the Allowlist.");
         throw new InvalidOwnershipVoucherException();
       }
 
@@ -220,13 +220,13 @@ class OwnershipVoucherVerifier implements IOwnershipVoucherVerifier {
     }
   }
 
-  private boolean validateAgainstWhiteAndBlackList(PublicKey key)
+  private boolean validateAgainstAllowAndDenyList(PublicKey key)
       throws NoSuchAlgorithmException, InvalidOwnershipVoucherException {
     byte[] keyHash = hashGenerator.hashSha256(key.getEncoded());
-    boolean isWhitelisted = ovPublicKeyTrustValidator.verify(keyHash);
-    if (isWhitelisted) {
-      whitelistedHashes.add(keyHash);
+    boolean isAllowlist = ovPublicKeyTrustValidator.verify(keyHash);
+    if (isAllowlist) {
+      allowlistHashes.add(keyHash);
     }
-    return isWhitelisted;
+    return isAllowlist;
   }
 }
