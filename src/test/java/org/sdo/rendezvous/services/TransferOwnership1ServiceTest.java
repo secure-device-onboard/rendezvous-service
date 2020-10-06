@@ -13,7 +13,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
-import org.sdo.rendezvous.exceptions.GuidBlacklistedException;
+import org.sdo.rendezvous.exceptions.GuidDenylistException;
 import org.sdo.rendezvous.exceptions.InvalidNonceException;
 import org.sdo.rendezvous.exceptions.InvalidProveRequestException;
 import org.sdo.rendezvous.exceptions.InvalidSigInfoException;
@@ -54,7 +54,7 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
   private static final byte[] NONCE = DatatypeConverter.parseHexBinary("1234");
   private static final byte[] GUID =
       DatatypeConverter.parseHexBinary("00000000000000000000000000000001");
-  private static final byte[] BLACKLISTED_GUID =
+  private static final byte[] DENYLIST_GUID =
       DatatypeConverter.parseHexBinary("000000000000000000000000000000FF");
   private static final byte[] PK = DatatypeConverter.parseHexBinary("0000");
   private static final byte[] SIGNATURE_BINARY = DatatypeConverter.parseHexBinary("0000");
@@ -148,14 +148,14 @@ public class TransferOwnership1ServiceTest extends PowerMockTestCase {
     Assert.assertEquals(response, helloSdoAckResponse);
   }
 
-  @Test(expectedExceptions = GuidBlacklistedException.class)
-  public void testGetHelloSdoAckResponseGuidBlacklisted() throws Exception {
-    Mockito.doThrow(GuidBlacklistedException.class)
+  @Test(expectedExceptions = GuidDenylistException.class)
+  public void testGetHelloSdoAckResponseGuidDenylist() throws Exception {
+    Mockito.doThrow(GuidDenylistException.class)
         .when(guidValidator)
-        .verifyAgainstBlackList(BLACKLISTED_GUID);
-    HelloSdoRequest requestWithBlacklistedGuid =
-        new HelloSdoRequest(BLACKLISTED_GUID, SIG_INFO_EPID);
-    transferOwnership1Service.getHelloSdoAckResponse(requestWithBlacklistedGuid);
+        .verifyAgainstDenyList(DENYLIST_GUID);
+    HelloSdoRequest requestWithDenylistFromGuid =
+        new HelloSdoRequest(DENYLIST_GUID, SIG_INFO_EPID);
+    transferOwnership1Service.getHelloSdoAckResponse(requestWithDenylistFromGuid);
   }
 
   @Test(expectedExceptions = InvalidSigInfoException.class)

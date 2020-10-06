@@ -13,7 +13,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.sdo.rendezvous.enums.AttributeName;
 import org.sdo.rendezvous.exceptions.SdoException;
 import org.sdo.rendezvous.logging.utils.LoggingUtils;
-import org.sdo.rendezvous.model.beans.WhitelistedHashes;
+import org.sdo.rendezvous.model.beans.AllowlistHashes;
 import org.sdo.rendezvous.model.requests.to0.OwnerSignRequest;
 import org.sdo.rendezvous.model.responses.to0.AcceptOwnerResponse;
 import org.sdo.rendezvous.model.responses.to0.HelloAckResponse;
@@ -30,10 +30,10 @@ import org.springframework.stereotype.Component;
 class TO0LoggingAspect {
   private static final int FIRST_ARGUMENT = 0;
 
-  private final WhitelistedHashes whitelistedHashes;
+  private final AllowlistHashes allowlistHashes;
 
-  TO0LoggingAspect(WhitelistedHashes whitelistedHashes) {
-    this.whitelistedHashes = whitelistedHashes;
+  TO0LoggingAspect(AllowlistHashes allowlistHashes) {
+    this.allowlistHashes = allowlistHashes;
   }
 
   @Around(
@@ -84,10 +84,10 @@ class TO0LoggingAspect {
     log.info(
         LoggingUtils.CUSTOMER,
         "TO0.OwnerSign request processing finished. Sending TO0.AcceptOwner response with "
-            + "HTTP status code: {}. Following hashes have been found on whitelist: {}. "
+            + "HTTP status code: {}. Following hashes have been found on allowlist: {}. "
             + "Response data: {}.",
         retValue.getStatusCode().value(),
-        whitelistedHashes.getAll().stream()
+        allowlistHashes.getAll().stream()
             .map(DatatypeConverter::printHexBinary)
             .collect(Collectors.toList()),
         JsonUtils.mapJsonToObject(retValue.getBody(), AcceptOwnerResponse.class));

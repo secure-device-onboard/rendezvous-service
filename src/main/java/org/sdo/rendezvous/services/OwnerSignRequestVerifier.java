@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.sdo.rendezvous.crypto.IHashGenerator;
 import org.sdo.rendezvous.enums.DeviceAttestationMethod;
 import org.sdo.rendezvous.exceptions.FailedCertChainVerificationException;
-import org.sdo.rendezvous.exceptions.GuidBlacklistedException;
+import org.sdo.rendezvous.exceptions.GuidDenylistException;
 import org.sdo.rendezvous.exceptions.InvalidAttestationMethodException;
 import org.sdo.rendezvous.exceptions.InvalidCertChainHashException;
 import org.sdo.rendezvous.exceptions.InvalidGuidException;
@@ -78,11 +78,11 @@ class OwnerSignRequestVerifier {
         ownerSignRequest.getTo0Data().getOwnershipVoucher());
   }
 
-  private void verifyGuid(byte[] guid) throws InvalidGuidException, GuidBlacklistedException {
+  private void verifyGuid(byte[] guid) throws InvalidGuidException, GuidDenylistException {
     guidValidator.validateGuidLength(guid);
     log.info("Guid length is valid.");
-    guidValidator.verifyAgainstBlackList(guid);
-    log.info("Guid successfully verified against black the list.");
+    guidValidator.verifyAgainstDenyList(guid);
+    log.info("Guid successfully verified against the denylist.");
   }
 
   private void verifyOwnershipVoucherCertChain(OwnershipVoucher ownershipVoucher)

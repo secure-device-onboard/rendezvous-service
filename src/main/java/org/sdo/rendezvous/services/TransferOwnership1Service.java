@@ -10,7 +10,7 @@ import javax.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sdo.rendezvous.enums.ErrorCodes;
-import org.sdo.rendezvous.exceptions.GuidBlacklistedException;
+import org.sdo.rendezvous.exceptions.GuidDenylistException;
 import org.sdo.rendezvous.exceptions.InvalidGroupIdException;
 import org.sdo.rendezvous.exceptions.InvalidGuidException;
 import org.sdo.rendezvous.exceptions.InvalidNonceException;
@@ -56,18 +56,18 @@ public class TransferOwnership1Service {
    * @return the instance of HelloSdoAckResponse
    * @throws InvalidGuidException if guid is invalid
    * @throws InvalidSigInfoException if sig info is invalid
-   * @throws GuidBlacklistedException if guid in on the blacklist
+   * @throws GuidDenylistException if guid in on the denylist
    * @throws InvalidGroupIdException if rpid group doesn't exist
    */
   public HelloSdoAckResponse getHelloSdoAckResponse(HelloSdoRequest helloRequest)
-      throws InvalidGuidException, InvalidSigInfoException, GuidBlacklistedException,
+      throws InvalidGuidException, InvalidSigInfoException, GuidDenylistException,
           InvalidGroupIdException {
     log.debug("Received helloSdo request.");
 
     guidValidator.validateGuidLength(helloRequest.getGuid());
     log.info("Guid length successfully verified.");
-    guidValidator.verifyAgainstBlackList(helloRequest.getGuid());
-    log.info("Guid successfully verified against the black list.");
+    guidValidator.verifyAgainstDenyList(helloRequest.getGuid());
+    log.info("Guid successfully verified against the deny list.");
 
     SigInfo sigInfo = getSigInfo(helloRequest);
 

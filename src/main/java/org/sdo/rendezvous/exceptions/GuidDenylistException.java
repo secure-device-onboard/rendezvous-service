@@ -6,11 +6,11 @@ package org.sdo.rendezvous.exceptions;
 import org.sdo.rendezvous.enums.ErrorCodes;
 
 @SuppressWarnings("serial")
-public class GuidBlacklistedException extends SdoException {
+public class GuidDenylistException extends SdoException {
 
   private static final ErrorCodes ERROR_CODE = ErrorCodes.INVALID_OWNERSHIP_VOUCHER;
 
-  public GuidBlacklistedException(String msg) {
+  public GuidDenylistException(String msg) {
     super(msg, ERROR_CODE);
   }
 }

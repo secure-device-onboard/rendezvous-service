@@ -18,7 +18,7 @@ import org.sdo.rendezvous.config.RendezvousConfig;
 import org.sdo.rendezvous.controllers.transferownership.TransferOwnership1Controller;
 import org.sdo.rendezvous.crypto.To1JwTokenFactory;
 import org.sdo.rendezvous.enums.AttributeName;
-import org.sdo.rendezvous.exceptions.GuidBlacklistedException;
+import org.sdo.rendezvous.exceptions.GuidDenylistException;
 import org.sdo.rendezvous.exceptions.InvalidSigInfoException;
 import org.sdo.rendezvous.exceptions.SdoException;
 import org.sdo.rendezvous.model.beans.DeviceInfo;
@@ -105,7 +105,7 @@ public class TransferOwnership1ControllerTest extends PowerMockTestCase {
   /**
    * Variable initialization.
    * @throws Exception for exceptions: InvalidGuidException, InvalidSigInfoException,
-   *                    GuidBlacklistedException, InvalidGroupIdException
+   *                    GuidDenylistException, InvalidGroupIdException
    */
   @BeforeMethod
   public void setUp() throws Exception {
@@ -152,10 +152,10 @@ public class TransferOwnership1ControllerTest extends PowerMockTestCase {
         ResponseUtils.createJsonResponse(HELLO_RESPONSE_ECDSA, HttpStatus.OK).getBody());
   }
 
-  @Test(expectedExceptions = GuidBlacklistedException.class)
+  @Test(expectedExceptions = GuidDenylistException.class)
   public void testhelloSdoInvalidGuid() throws Exception {
     HelloSdoRequest helloRequestWithInvalidGuid = new HelloSdoRequest(INVALID_GUID, SIG_INFO_ECDSA);
-    Mockito.doThrow(GuidBlacklistedException.class)
+    Mockito.doThrow(GuidDenylistException.class)
         .when(transferOwnership1Service)
         .getHelloSdoAckResponse(helloRequestWithInvalidGuid);
 

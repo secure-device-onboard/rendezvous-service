@@ -26,7 +26,7 @@ If you are working with source code, build the project and it will copy the requ
 ## Trust management
 The hashes for the default public keys present in iot-platform-sdk and supply-chain-tools are listed in following table.
 
-| Whitelisted Hash | SDO Component |
+| Hashes in Allowlist | SDO Component |
 | --- | --- |
 | 707B6451B8319C28E412F847E17BB87995441AF356007A03A3A4AC7745A5223D | Supply Chain Toolkit - Manufacturer ECDSA 256 |
 | 25D42F0536CE584E5812AB8750E80E7464742B4B65347BEA90AD4BBC71D3FFA6 | Supply Chain Toolkit - Manufacturer ECDSA 384 |
@@ -38,7 +38,7 @@ The hashes for the default public keys present in iot-platform-sdk and supply-ch
 | 834F83875910C8507CE935BE2F947DCF854E6554C3ACB79893ACF91220EA5D8B | IOT Platform SDK - ECDSA 384 |
 | B4E95FB7062303BEB84FBB606ED75CCE99D1C4B6CC88F71E65286CAD7C74F3A5 | IOT Platform SDK - RSA 2048 |
 
-To whitelist other credentials, see instructions in the [Secure Device Onboard Rendezvous Service README](https://github.com/secure-device-onboard/rendezvous-service/#trust-management).
+To add any other credentials in allowlist, see instructions in the [Secure Device Onboard Rendezvous Service README](https://github.com/secure-device-onboard/rendezvous-service/#trust-management).
 
 ## Create Java keystore files
 See instructions in the [Secure Device Onboard Rendezvous Service README](https://github.com/secure-device-onboard/rendezvous-service/#generate-keystores). Once the keystore and truststore files are created, update docker-compose.yml to reflect the file name, path and password. The default configured keystore is /certs/rendezvous-keystore.jks and the default configured truststore is /certs/rendezvous-truststore.jks. Default passwords for both: 123456
