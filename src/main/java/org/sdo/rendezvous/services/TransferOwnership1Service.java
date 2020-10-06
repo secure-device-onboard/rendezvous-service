@@ -9,6 +9,7 @@ import java.util.Arrays;
 import javax.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sdo.rendezvous.enums.ErrorCodes;
 import org.sdo.rendezvous.exceptions.GuidBlacklistedException;
 import org.sdo.rendezvous.exceptions.InvalidGroupIdException;
 import org.sdo.rendezvous.exceptions.InvalidGuidException;
@@ -28,6 +29,7 @@ import org.sdo.rendezvous.model.types.PkEcdsaEnc;
 import org.sdo.rendezvous.model.types.PkEpidEnc;
 import org.sdo.rendezvous.model.types.PkOnDieEcdsaEnc;
 import org.sdo.rendezvous.model.types.PubKey;
+import org.sdo.rendezvous.model.types.PublicKeyType;
 import org.sdo.rendezvous.model.types.SigInfo;
 import org.sdo.rendezvous.repositories.JedisRepository;
 import org.sdo.rendezvous.services.signature.SignatureVerifier;
@@ -40,6 +42,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TransferOwnership1Service {
 
+  public static final String[] appIdList = {"e2cb06bd11a323419d1d3563b809bc46"};
   private final GuidValidator guidValidator;
   private final EpidMaterialService epidMaterialService;
   private final JedisRepository jedisRepository;
@@ -93,6 +96,13 @@ public class TransferOwnership1Service {
             ByteConverter.getGuidFromByteArray(proveRequest.getProveToSdoBody().getGuid()));
     PubKey publicKey = getPubKey(proveRequest, versionedTO1Data);
 
+    if (publicKey.getPkType() == PublicKeyType.EPID_1_0
+        || publicKey.getPkType() == PublicKeyType.EPID_1_1
+        || publicKey.getPkType() == PublicKeyType.EPID_2_0) {
+      verifyAppId(proveRequest);
+      log.info("App Id successfully verified.");
+    }
+
     signatureVerifier.verify(
         proveRequest.getProveToSdoBody(), publicKey, proveRequest.getSignature().getBytes());
     log.info("Signature successfully verified.");
@@ -143,6 +153,20 @@ public class TransferOwnership1Service {
     }
     if (!Arrays.equals(request.getProveToSdoBody().getNonce(), device.getNonce())) {
       throw new InvalidNonceException("The nonce from JWT doesn't match the nonce from body.");
+    }
+  }
+
+  private void verifyAppId(ProveToSdoRequest request) throws SdoException {
+    boolean isAppIdValid = false;
+    final byte[] proveDeviceAppId = request.getProveToSdoBody().getAppId().getAppIdBytes();
+    for (final String appId : appIdList) {
+      if (Arrays.equals(proveDeviceAppId, DatatypeConverter.parseHexBinary(appId))) {
+        isAppIdValid = true;
+        break;
+      }
+    }
+    if (!isAppIdValid) {
+      throw new SdoException("Invalid appId", ErrorCodes.MESSAGE_BODY_ERROR);
     }
   }
 

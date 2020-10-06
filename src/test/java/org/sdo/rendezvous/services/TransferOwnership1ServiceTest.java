@@ -49,7 +49,8 @@ import org.testng.annotations.Test;
 public class TransferOwnership1ServiceTest extends PowerMockTestCase {
 
   private static final int AI_TYPE = 2;
-  private static final byte[] AI_BYTES = DatatypeConverter.parseHexBinary("0000");
+  private static final byte[] AI_BYTES =
+      DatatypeConverter.parseHexBinary("e2cb06bd11a323419d1d3563b809bc46");
   private static final byte[] NONCE = DatatypeConverter.parseHexBinary("1234");
   private static final byte[] GUID =
       DatatypeConverter.parseHexBinary("00000000000000000000000000000001");
