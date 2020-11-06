@@ -16,7 +16,7 @@ Rendezvous service is a software service that permits the Device to find its cur
 
 ### System requirements
 
-* **Ubuntu 18.04**.
+* **Ubuntu 20.04**.
 * **Maven**.
 * **Java 11**.
 * **Docker Engine 18.09**. (Optional)

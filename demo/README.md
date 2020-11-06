@@ -11,7 +11,7 @@
 
 # System requirements
 
-* Operating system: Ubuntu 18.04.
+* Operating system: Ubuntu 20.04.
 
 *  Linux packages:<br/><br/>
 `Docker engine (minimum version 18.09)`<br/><br/>
