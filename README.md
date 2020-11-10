@@ -85,7 +85,7 @@ $ (integer) 1
 ```
 
 **Prepare Ownership Voucher Keys Denylist**:
-* Create Redis Hash **OP_KEYS_DENLYLIST**
+* Create Redis Hash **OP_KEYS_DENYLIST**
 * Calculate SHA256 hash of an ownership voucher public key (upper case, example "3055924C4AF1A77FD365C380F9B3CFC40C5F8C79B1EC6492F0D15648E9792CA2")
 * Add the calculated hash to the **OP_KEYS_DENYLIST** with the calculated hash as a key and "1" as a value, example:
 ```
