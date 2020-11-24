@@ -10,16 +10,14 @@ TRUST_STORE_SSL_PARAM="-Djavax.net.ssl.trustStore=/home/sdouser/certs/rendezvous
 PROXY_SETTINGS=""
 if [ "" != "${http_proxy}" ]
 then
-    NO_SCHEMA_HTTP_ADDRESS=$(echo ${http_proxy} | sed -r 's#^(.*://)##')
-    HTTP_PROXY_URL=$(echo ${NO_SCHEMA_HTTP_ADDRESS} | sed -r 's#:.*##')
-    HTTP_PROXY_PORT=$(echo ${NO_SCHEMA_HTTP_ADDRESS} | sed -r 's#.*:##')
+    HTTP_PROXY_URL=$(echo $http_proxy | awk -F':' {'print $2'} | tr -d '/')
+    HTTP_PROXY_PORT=$(echo $http_proxy | awk -F':' {'print $3'} | tr -d '/')
     PROXY_SETTINGS="-Dhttp.proxyHost=${HTTP_PROXY_URL} -Dhttp.proxyPort=${HTTP_PROXY_PORT}"
 fi
 if [ "" != "${https_proxy}" ]
 then
-    NO_SCHEMA_HTTPS_ADDRESS=$(echo ${https_proxy} | sed -r 's#^(.*://)##')
-    HTTPS_PROXY_URL=$(echo ${NO_SCHEMA_HTTPS_ADDRESS} | sed -r 's#:.*##')
-    HTTPS_PROXY_PORT=$(echo ${NO_SCHEMA_HTTPS_ADDRESS} | sed -r 's#.*:##')
+    HTTPS_PROXY_URL=$(echo $https_proxy | awk -F':' {'print $2'} | tr -d '/')
+    HTTPS_PROXY_PORT=$(echo $https_proxy | awk -F':' {'print $3'} | tr -d '/')
     PROXY_SETTINGS="${PROXY_SETTINGS} -Dhttps.proxyHost=${HTTPS_PROXY_URL} -Dhttps.proxyPort=${HTTPS_PROXY_PORT}"
 fi
 
