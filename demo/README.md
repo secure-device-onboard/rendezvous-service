@@ -38,7 +38,7 @@ The hashes for the default public keys present in iot-platform-sdk and supply-ch
 | 834F83875910C8507CE935BE2F947DCF854E6554C3ACB79893ACF91220EA5D8B | IOT Platform SDK - ECDSA 384 |
 | B4E95FB7062303BEB84FBB606ED75CCE99D1C4B6CC88F71E65286CAD7C74F3A5 | IOT Platform SDK - RSA 2048 |
 
-To add any other credentials in allowlist, see instructions in the [Secure Device Onboard Rendezvous Service README](https://github.com/secure-device-onboard/rendezvous-service/#trust-management).
+**NOTE** `hashlist.redis` file adds default hash in allowlist when container starts. To add additional credentials to the redis DB while container is running, user needs to login to the container using [Docker Container Login Command](#docker-container-login) and add the credentials using instructions in the [Secure Device Onboard Rendezvous Service README](https://github.com/secure-device-onboard/rendezvous-service/#trust-management). Another way of adding other credentials is to add them in `hashlist.redis` file and restart the docker.
 
 ## Create Java Keystore Files
 See instructions in the [Secure Device Onboard Rendezvous Service README](https://github.com/secure-device-onboard/rendezvous-service/#generate-keystores). Once the keystore and truststore files are created, update docker-compose.yml to reflect the file name, path and password. The default configured keystore is /certs/rendezvous-keystore.jks and the default configured truststore is /certs/rendezvous-truststore.jks. Default passwords for both: 123456
@@ -70,6 +70,15 @@ $ sudo systemctl stop redis
 $ sudo docker-compose up -d --build
 ```
 * Your Docker container is now ready to support TO0 & TO1 protocol operations.
+
+## Docker Container Login
+* Use the following command to login to docker container.
+```
+$ sudo docker exec -it <container-name> bash
+  OR
+$ sudo docker exec -it <container-id> bash
+```
+* Your container should be running state for login.
 
 ## Stop Docker
 
