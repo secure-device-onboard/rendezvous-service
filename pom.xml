@@ -12,7 +12,7 @@
   <artifactId>rendezvous-service</artifactId>
   <name>SDO Rendezvous Service WebApp</name>
   <packaging>war</packaging>
-  <version>1.10</version>
+  <version>1.10.1-SNAPSHOT</version>
   <description>SDO Rendezvous Service WebApp</description>
 
   <parent>
