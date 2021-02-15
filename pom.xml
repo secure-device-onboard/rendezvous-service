@@ -18,7 +18,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.5.RELEASE</version>
+    <version>2.3.8.RELEASE</version>
     <relativePath/>
   </parent>
 
@@ -26,14 +26,14 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-rest</artifactId>
-      <version>2.3.5.RELEASE</version>
+      <version>2.3.8.RELEASE</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jetty</artifactId>
-      <version>2.3.5.RELEASE</version>
+      <version>2.3.8.RELEASE</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -46,13 +46,13 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
-      <version>2.3.5.RELEASE</version>
+      <version>2.3.8.RELEASE</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
-      <version>5.2.8.RELEASE</version>
+      <version>5.2.12.RELEASE</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -65,7 +65,7 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.66</version>
+      <version>1.68</version>
       <scope>provided</scope>
     </dependency>
 
@@ -180,7 +180,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>2.3.8.RELEASE</version>
         <executions>
           <execution>
             <goals>
