@@ -22,6 +22,10 @@
     <relativePath/>
   </parent>
 
+  <properties>
+    <tomcat.version>9.0.43</tomcat.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
