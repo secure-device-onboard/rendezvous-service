@@ -13,7 +13,7 @@ export _JAVA_OPTIONS="-Dhttp.proxyHost=$http_proxy_host -Dhttp.proxyPort=$http_p
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 REMOTE_URL=https://github.com/secure-device-onboard/rendezvous-service.git
-REMOTE_BRANCH=master
+REMOTE_BRANCH=1.10-rel
 
 if [ "$use_remote" = "1" ]; then
   echo "Building $REMOTE_URL : $REMOTE_BRANCH"
