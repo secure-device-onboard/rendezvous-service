@@ -6,7 +6,10 @@ SSL_KEY_STORE="rendezvous-keystore.jks"
 JAVA_SSL_PARAMS="-Dserver.ssl.key-store=/home/sdouser/certs/$SSL_KEY_STORE -Dserver.ssl.key-store-password=$SSL_KEY_STORE_PASSWORD"
 JAVA_REDIS_PARAMS="-Dredis.host=$REDIS_HOST -Dredis.password=$REDIS_PASSWORD -Dredis.port=$REDIS_PORT"
 TRUST_STORE_SSL_PARAM="-Djavax.net.ssl.trustStore=/home/sdouser/certs/rendezvous-trusterRootCA.jks -Djavax.net.ssl.trustStorePassword=$SSL_TRUST_STORE_PASSWORD"
-HMAC_SECRET="-Drendezvous.hmacSecret=$(tr -cd 'a-f0-9' < /dev/urandom | head -c128)"
+
+# This is an example implementation. This should be updated in production deployment.
+# Care must be taken to ensure the cryptographic strength of this key.
+HMAC_SECRET="-Drendezvous.hmacSecret=$(openssl rand -hex 64)"
 
 PROXY_SETTINGS=""
 if [ "" != "${http_proxy}" ]
