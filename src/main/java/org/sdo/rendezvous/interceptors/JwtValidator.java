@@ -34,11 +34,10 @@ class JwtValidator {
     String[] jwtElements = authHeader.split("\\.");
     String payload = new String(decoder.decode(jwtElements[1]));
     String expTime = payload.substring(payload.lastIndexOf(":") + 1, payload.length() - 1);
-    Date time = new Date(Long.parseLong(expTime) * 1000);
 
     // Validate the timestamp is not older than TO Token expiration time
     int diffMinutes =
-        (int) TimeUnit.MILLISECONDS.toMinutes(time.getTime() - System.currentTimeMillis());
+        (int) TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(expTime) - System.currentTimeMillis());
 
     if (diffMinutes
         > TimeUnit.MILLISECONDS.toMinutes(rendezvousConfig.getToTokenExpirationTime())) {
