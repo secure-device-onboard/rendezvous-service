@@ -44,10 +44,10 @@
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <powermock-api-mockito2.version>2.0.7</powermock-api-mockito2.version>
     <powermock-module-testng.version>2.0.7</powermock-module-testng.version>
-    <spring-boot.version>2.3.11.RELEASE</spring-boot.version>
+    <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
     <spring.version>5.3.7</spring.version>
     <testng.version>7.4.0</testng.version>
-    <tomcat.version>9.0.46</tomcat.version>
+    <tomcat.version>9.0.52</tomcat.version>
   </properties>
 
   <dependencies>
