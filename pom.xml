@@ -48,6 +48,7 @@
     <spring.version>5.3.7</spring.version>
     <testng.version>7.4.0</testng.version>
     <tomcat.version>9.0.53</tomcat.version>
+    <log4j2.version>2.15.0</log4j2.version>
   </properties>
 
   <dependencies>
