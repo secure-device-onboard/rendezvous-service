@@ -23,8 +23,8 @@
   </parent>
 
   <properties>
-    <bcprov-jdk15on.version>1.68</bcprov-jdk15on.version>
-    <bcpkix-jdk15on.version>1.68</bcpkix-jdk15on.version>
+    <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
+    <bcpkix-jdk15on.version>1.70</bcpkix-jdk15on.version>
     <guava.version>30.1.1-jre</guava.version>
     <jackson-databind.version>2.11.4</jackson-databind.version>
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
