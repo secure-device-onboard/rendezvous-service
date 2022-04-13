@@ -1,3 +1,5 @@
+***Note:***  The support for this product will be discontinued from Dec 1, 2022. We recommend users to switch to FDO components (https://github.com/secure-device-onboard/pri-fidoiot).
+
 ## Table of Contents
 1. [About](#about)
 1. [System Requirements](#system-requirements)
