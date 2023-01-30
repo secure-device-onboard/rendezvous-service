@@ -21,7 +21,7 @@ Rendezvous service is a software service that permits the Device to find its cur
 * **Ubuntu 20.04**.
 * **Maven**.
 * **Java 11**.
-* **Docker Engine 18.09**. (Optional)
+* **Docker Engine 19.03.15**. (Optional)
 * **Docker-compose 1.21.2**. (Optional)
 * **Redis database** [page][2]
 * **Redis via SSL** [page][3] - usage of stunnel to secure redis (optional)

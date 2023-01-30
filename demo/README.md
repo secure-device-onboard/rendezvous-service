@@ -14,7 +14,7 @@
 * Operating system: Ubuntu 20.04.
 
 *  Linux packages:<br/><br/>
-`Docker engine (minimum version 18.09)`<br/><br/>
+`Docker engine (minimum version 19.03.15)`<br/><br/>
 `Docker-compose (minimum version 1.21.2)`<br/>
 
 # Instructions
